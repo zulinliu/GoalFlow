@@ -2,6 +2,8 @@
 
 Use this routing table to choose the controlling capability. When a selected skill has not been loaded in the current context, open its `SKILL.md` or invoke it explicitly before acting.
 
+Skill forms such as `$impeccable craft` and `$gsd-plan-phase` are agent skill invocations, not shell commands. Do not run them in a terminal unless the referenced skill explicitly provides a shell equivalent.
+
 ## Principle
 
 Impeccable controls frontend experience and visual quality. GSD controls engineering workflow and delivery. If a step touches both, run Impeccable first when it affects UX, UI, interaction, motion, prototype, or brand.
@@ -68,10 +70,12 @@ For a meaningful new feature, never route directly to `$gsd-quick` or `$gsd-auto
 
 Use `--brand` or clear brand language. Route:
 
-1. Impeccable brand/product register, naming, visual direction, prototype.
-2. GSD docs/update planning for README and product docs.
-3. Impeccable polish/clarify for page copy, names, icon usage, slogans.
-4. GSD verification and release.
+1. `$impeccable init` if product/design context is missing.
+2. `$impeccable shape <feature>` for naming, brand narrative, logo direction, slogan, icon/page naming, visual direction, and prototype requirements.
+3. `$impeccable craft <feature>` for the brand-bearing interactive prototype or production UI.
+4. `$impeccable clarify <target>` and `$impeccable polish <target>` for page copy, names, icon usage, slogan fit, and final visual quality.
+5. `$gsd-docs-update` for README, product docs, release notes, and cross-document consistency.
+6. GSD verification and release gates.
 
 ### Review Existing Feature
 

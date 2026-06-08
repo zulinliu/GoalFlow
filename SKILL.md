@@ -23,7 +23,7 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 
 Parse only these flags:
 
-- `--auto`: Skip user confirmations, but do not skip design quality gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
+- `--auto`: Skip pre-release clarification and design/product confirmations, but do not skip design quality gates, blockers, destructive actions, credential decisions, external-state changes, or release gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
 - `--brand`: Run the full feature brand culture path: naming, narrative, logo direction, slogan, icon/page naming, README and docs language.
 
 No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md).

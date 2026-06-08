@@ -25,7 +25,7 @@ Default mode asks concise clarification questions in the user's language before 
 - Frontend surfaces involved.
 - Whether full brand culture is required.
 
-In `--auto`, do not ask the user. Instead, write an assumption log in the relevant GSD/Impeccable artifact and continue. The log must state what was assumed, why the assumption is reasonable, and which later review or test can invalidate it.
+In `--auto`, skip clarification and confirmation gates by writing assumptions, except for release gates, external-state changes, destructive actions, credentials, documented blockers, and grey-area decisions that the underlying GSD/Impeccable workflow requires the user to accept. The log must state what was assumed, why the assumption is reasonable, and which later review or test can invalidate it.
 
 ## 3. Design Frontend First
 
