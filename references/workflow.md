@@ -25,7 +25,7 @@ Default mode asks concise Chinese clarification questions before design. Clarify
 - Frontend surfaces involved.
 - Whether full brand culture is required.
 
-In `--auto`, do not ask the user. Instead, write an assumption log in the relevant GSD/Impeccable artifact and continue.
+In `--auto`, do not ask the user. Instead, write an assumption log in the relevant GSD/Impeccable artifact and continue. The log must state what was assumed, why the assumption is reasonable, and which later review or test can invalidate it.
 
 ## 3. Design Frontend First
 
@@ -38,6 +38,16 @@ Frontend experience is the source of truth. Use Impeccable before backend/API de
 
 The prototype must include realistic content, hover/focus/active/loading/error/success states, key transitions, responsive behavior, and reduced-motion alternatives where applicable. Commit the prototype to git.
 
+Prototype threshold:
+
+- Required: new or changed user flow, visible UI, complex state, brand/landing work, onboarding, settings, dashboards, forms, or any interaction-heavy surface.
+- Optional with recorded reason: backend-only changes, docs-only changes, copy-only changes, data migrations, or small config/admin edits with no new interaction.
+
+Brand threshold:
+
+- Normal mode checks product voice, UX naming, page labels, and visual consistency.
+- `--brand` is for public identity work: feature naming systems, launch pages, logo direction, slogan, README narrative, icon/page naming, or brand-visible product changes.
+
 ## 4. Review Prototype
 
 Before implementation, run a design review:
@@ -47,9 +57,23 @@ Before implementation, run a design review:
 
 Use Impeccable as the visual authority. GSD sketch can be used for variant archiving and `.planning/sketches/` management, but it does not replace Impeccable for aesthetics, interaction quality, or frontend craft.
 
+Record the design gate:
+
+- Normal mode: store the Chinese design summary, prototype path, user decision, and requested changes in the relevant Impeccable/GSD artifact.
+- `--auto`: store the autonomous review prompt summary, reviewers used or fallback reason, findings, iteration applied, and remaining risks. If no material issue was found, explicitly record that result instead of silently continuing.
+
+Durable artifact suggestions:
+
+- `.planning/phases/<phase>/ASSUMPTIONS.md`
+- `.planning/phases/<phase>/AUTONOMOUS_REVIEW.md`
+- `.planning/phases/<phase>/HARNESS_DOWNGRADES.md`
+- `.impeccable/critique/<feature>-review.md` when the review is primarily visual
+
 ## 5. Plan Engineering
 
 Use GSD for requirements, phase planning, backend/API boundaries, validation, UAT, and execution plans. Backend/API design must trace back to the frontend prototype's user flows and states.
+
+Do not use `$gsd-quick` or `$gsd-autonomous` to bypass GoalFlow design gates for meaningful features. `$gsd-quick` is only for small, low-risk follow-up tasks after design direction is already settled. `$gsd-autonomous` is only appropriate after the GoalFlow design gate and GSD plan are in place.
 
 For large features, prefer:
 
@@ -88,4 +112,4 @@ Fix all P0/P1 findings and re-review. Do not declare production-ready while bloc
 
 ## 9. Ship
 
-Before shipping, read [release-gates.md](release-gates.md). Local commits may be autonomous. PR merge, tag creation, release publication, and production deployment require a user gate.
+Before shipping, read [release-gates.md](release-gates.md). Local commits may be autonomous only after the real-person author gate. Remote branch push, remote PR creation/update, PR merge, tag creation, release publication, external artifact publication, and production or shared-environment deployment require a user gate.

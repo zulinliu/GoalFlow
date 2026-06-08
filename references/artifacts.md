@@ -36,6 +36,8 @@ Use GSD tools/workflows for `STATE.md` and `ROADMAP.md` mutations where availabl
 
 Interactive HTML prototypes are mandatory for meaningful features.
 
+Meaningful features include new or changed user flows, visible UI, complex state, brand/landing work, onboarding, settings, dashboards, forms, and interaction-heavy surfaces. Prototype skips are allowed only for backend-only, docs-only, copy-only, data migration, or small config/admin changes with no new interaction, and the skip reason must be recorded.
+
 Preferred locations:
 
 1. Existing project source route/component when the prototype is meant to become production code.
@@ -55,3 +57,12 @@ Prototype requirements:
 
 - Chinese: user-reviewed design plans, review reports, release gates, brand narratives, and user-facing summaries.
 - English: agent-only prompts, internal execution plans, subagent task prompts, and machine-oriented checklists.
+
+## Autonomous Records
+
+When `--auto` or a harness fallback is used, record durable evidence instead of relying on chat history:
+
+- Assumptions made and why they are acceptable.
+- Subagents requested, subagents used, or downgrade reason.
+- Findings and the iteration applied.
+- Remaining risks and compensating verification.

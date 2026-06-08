@@ -7,6 +7,8 @@ description: End-to-end feature delivery orchestration for AI coding agents. Use
 
 GoalFlow turns one feature goal into a designed, prototyped, implemented, verified, documented, and release-ready delivery flow.
 
+一句话：输入 `$goalflow 做一个 XXX 功能`，GoalFlow 会先做体验设计和 HTML 原型，再推进实现、验证、文档和发布准备。
+
 ## First Action
 
 Run the environment probe before any project changes:
@@ -15,7 +17,7 @@ Run the environment probe before any project changes:
 node ~/.codex/skills/goalflow/scripts/check_env.mjs
 ```
 
-If it reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
+If the skill is installed outside Codex, run the same script from that skill directory, for example `node ~/.claude/skills/goalflow/scripts/check_env.mjs`. If it reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
 
 ## Modes
 
@@ -26,15 +28,25 @@ Parse only these flags:
 
 No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md).
 
+Common Chinese invocations:
+
+```text
+$goalflow 做一个团队成员邀请功能
+$goalflow --auto 做一个订单筛选功能
+$goalflow --brand 做一个新产品首页
+```
+
+Follow-up intents can be natural Chinese, for example "继续推进", "重新设计", "评审", "修复", "下一步做什么", or "准备发布".
+
 ## Core Rules
 
 1. Put frontend experience first. Use Impeccable to shape UX, UI, interaction, motion, visual system, and an interactive HTML prototype before backend/API contracts are finalized.
-2. Make prototypes mandatory for meaningful features. The prototype must include realistic content, interaction loops, motion, responsive behavior, and key states. Commit the prototype to git.
+2. Make prototypes mandatory for meaningful features: new or changed user flows, visible UI, complex state, brand/landing work, or any interaction-heavy surface. Backend-only, docs-only, copy-only, or small config/admin changes with no new interaction may skip the prototype with the reason recorded. The prototype must include realistic content, interaction loops, motion, responsive behavior, and key states. Commit the prototype to git.
 3. Use Impeccable as the highest authority for visual and frontend quality. Use GSD as the highest authority for engineering workflow, documentation, verification, git, PR, and release flow.
 4. Preserve native artifact locations. Do not invent a GoalFlow artifact directory. See [artifacts.md](references/artifacts.md).
 5. Use Chinese for user-reviewed artifacts and gates. Use English for agent-only plans, subagent prompts, and internal execution notes.
 6. Parallelize independent research, review, and audit work with subagents whenever the harness supports it. Fall back inline only when tooling is unavailable or unsafe.
-7. Local commits may be autonomous. PR merge, tags, and release publication require a user release gate.
+7. Local commits may be autonomous only after a real-person author check. Remote branch push, remote PR creation/update, PR merge, tags, release publication, external artifact publication, and production or shared-environment deployment require a user gate.
 
 ## Workflow
 

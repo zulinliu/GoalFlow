@@ -1,4 +1,4 @@
 interface:
   display_name: "GoalFlow"
-  short_description: "Goal to production-ready flow"
-  default_prompt: "Use $goalflow to turn this feature goal into a designed, verified, release-ready implementation."
+  short_description: "Turn goals into release-ready features"
+  default_prompt: "Use $goalflow 做一个 XXX 功能 to design, prototype, implement, verify, document, and prepare a release-ready feature."

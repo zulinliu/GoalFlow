@@ -97,6 +97,15 @@ GSD 原生产物：
 
 Codex 优先使用 `request_user_input`、可用多代理工具、Playwright 或本地浏览器检查；Claude 优先使用 `AskUserQuestion` 和 `Task()`；其他 harness 不支持时回退为纯文本问答和 inline 执行，并记录降级原因。
 
+## 评审后强化约束
+
+1. 远程 gate 加硬：任何远程 branch push、PR 创建/更新、merge、tag、release、外部包/镜像/构建产物发布、生产或共享环境变更，都必须用户确认。
+2. Commit 作者检查前移：本地自主 commit 前也必须检查真实个人作者，并检查 `GIT_AUTHOR_*`、`GIT_COMMITTER_*` 环境变量覆盖。
+3. `--auto` 可跳过用户确认，但必须留下假设、评审、迭代、降级和剩余风险记录，不能只依赖聊天历史。
+4. 原型触发阈值明确：涉及新/改用户流、可见 UI、复杂状态、品牌/落地页、表单、仪表盘、交互重的功能必须出 HTML 原型；纯后端、文档、文案、迁移或无交互的小配置改动可记录原因后跳过。
+5. 品牌模式边界明确：普通模式只检查产品语气、UX 命名和视觉一致性；`--brand` 才进入完整品牌文化工程。
+6. 开源入口补强：仓库根目录提供中英文 README，Skill 主体提供中文用法示例。
+
 ## 外部参考
 
 - https://github.com/pbakaus/impeccable

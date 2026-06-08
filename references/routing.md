@@ -35,17 +35,21 @@ Use GSD for:
 - Discussion and decision capture: `$gsd-discuss-phase`
 - Phase planning: `$gsd-plan-phase`
 - Execution: `$gsd-execute-phase`
-- Autonomous remaining work: `$gsd-autonomous`
-- Quick low-risk work: `$gsd-quick`
+- Autonomous remaining work after GoalFlow design and GSD plan gates: `$gsd-autonomous`
+- Quick low-risk follow-up work after design direction is settled: `$gsd-quick`
 - Code review: `$gsd-code-review`
 - Audit-to-fix loop: `$gsd-audit-fix`
 - Verification: `$gsd-validate-phase`, `$gsd-verify-work`, `$gsd-audit-uat`
 - Tests: `$gsd-add-tests`
 - Docs: `$gsd-docs-update`
-- UI contract/review support: `$gsd-ui-phase`, `$gsd-ui-review`
+- UI contract/review support after Impeccable design direction is set: `$gsd-ui-phase`, `$gsd-ui-review`
 - HTML variant archiving: `$gsd-sketch`
 - Progress and next action: `$gsd-progress`
 - Release and PR preparation: `$gsd-ship`, `$gsd-pr-branch`, `$gsd-complete-milestone`
+
+Do not use `$gsd-new-project` for release work. It is only for missing `.planning/` initialization or new project context.
+
+Do not use `$gsd-ui-phase` as the visual design authority. It translates the accepted Impeccable-led direction into engineering contracts and review criteria.
 
 ## Combined Routes
 
@@ -57,6 +61,8 @@ Use GSD for:
 4. GSD execute with Impeccable frontend gates.
 5. Parallel final review.
 6. GSD ship with release gate.
+
+For a meaningful new feature, never route directly to `$gsd-quick` or `$gsd-autonomous` before the Impeccable prototype and design gate are complete.
 
 ### Brand Feature
 
@@ -79,6 +85,8 @@ Run parallel review where possible:
 ### "Next Step" Request
 
 Inspect git state, `.planning/`, Impeccable artifacts, open findings, and current phase. Recommend or run the highest priority action. Prefer unresolved P0/P1 fixes, missing prototype, missing design docs, missing plan, failing tests, or release blockers before new scope.
+
+If the next action would mutate a remote branch, PR, tag, release, or production environment, stop at [release-gates.md](release-gates.md) first.
 
 ## Backend-Only Exception
 
