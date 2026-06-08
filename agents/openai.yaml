@@ -1,0 +1,4 @@
+interface:
+  display_name: "GoalFlow"
+  short_description: "Goal to production-ready flow"
+  default_prompt: "Use $goalflow to turn this feature goal into a designed, verified, release-ready implementation."
