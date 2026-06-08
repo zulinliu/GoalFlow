@@ -30,7 +30,7 @@ Use Impeccable for:
 
 Use GSD for:
 
-- Project initialization: `$gsd-new-project`
+- Project bootstrap/context capture when `.planning/` is missing: `$gsd-new-project`
 - Clarifying phase deliverables: `$gsd-spec-phase`
 - Discussion and decision capture: `$gsd-discuss-phase`
 - Phase planning: `$gsd-plan-phase`
@@ -47,7 +47,7 @@ Use GSD for:
 - Progress and next action: `$gsd-progress`
 - Release and PR preparation: `$gsd-ship`, `$gsd-pr-branch`, `$gsd-complete-milestone`
 
-Do not use `$gsd-new-project` for release work. It is only for missing `.planning/` initialization or new project context.
+Do not use `$gsd-new-project` for release work. Before the Impeccable prototype exists, use it only for bootstrap/context capture; do not let it finalize requirements, roadmap commitments, backend/API boundaries, or phase plans.
 
 Do not use `$gsd-ui-phase` as the visual design authority. It translates the accepted Impeccable-led direction into engineering contracts and review criteria.
 
@@ -62,7 +62,7 @@ Do not use `$gsd-ui-phase` as the visual design authority. It translates the acc
 5. Parallel final review.
 6. GSD ship with release gate.
 
-For a meaningful new feature, never route directly to `$gsd-quick` or `$gsd-autonomous` before the Impeccable prototype and design gate are complete.
+For a meaningful new feature, never route directly to `$gsd-quick` or `$gsd-autonomous` before the Impeccable prototype and design gate are complete. If `$gsd-quick` touches user-facing UI, use validation and an Impeccable review; otherwise prefer the full GoalFlow plan/execute path.
 
 ### Brand Feature
 
@@ -79,7 +79,7 @@ Run parallel review where possible:
 
 - Impeccable critique/audit/polish for UI.
 - GSD code-review/validate/audit-uat for engineering.
-- Synthesize P0/P1/P2 findings in Chinese.
+- Synthesize P0/P1/P2 findings in the user's language.
 - Fix P0/P1 first, then re-review.
 
 ### "Next Step" Request

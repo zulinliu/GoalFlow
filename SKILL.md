@@ -1,6 +1,6 @@
 ---
 name: goalflow
-description: End-to-end feature delivery orchestration for AI coding agents. Use when the user asks to build, redesign, brand, review, iterate, or ship a feature from a high-level goal into production-ready software through Impeccable-led UX, frontend craft, brand, interactive HTML prototypes, and visual quality, plus GSD-led requirements, planning, backend/API design, execution, verification, documentation, git, PR, and release gates. Supports Chinese-first user review, Codex and Claude optimized workflows, optional --auto autonomous mode, and optional --brand full brand culture work.
+description: End-to-end feature delivery orchestration for AI coding agents. Use when the user explicitly invokes $goalflow or asks to turn one high-level feature goal into a production-ready delivery flow across design, interactive HTML prototype, implementation, verification, documentation, git, PR, and release gates through Impeccable-led UX/frontend craft and GSD-led engineering workflow. Do not use for isolated code review, small edits, single-skill frontend polish, or backend-only work unless the user asks for GoalFlow-level orchestration. Supports the user's language, Codex and Claude optimized workflows, optional --auto autonomous mode, and optional --brand full brand culture work.
 ---
 
 # GoalFlow
@@ -14,10 +14,10 @@ GoalFlow turns one feature goal into a designed, prototyped, implemented, verifi
 Run the environment probe before any project changes:
 
 ```bash
-node ~/.codex/skills/goalflow/scripts/check_env.mjs
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 ```
 
-If the skill is installed outside Codex, run the same script from that skill directory, for example `node ~/.claude/skills/goalflow/scripts/check_env.mjs`. If it reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
+`<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
 
 ## Modes
 
@@ -44,7 +44,7 @@ Follow-up intents can be natural Chinese, for example "继续推进", "重新设
 2. Make prototypes mandatory for meaningful features: new or changed user flows, visible UI, complex state, brand/landing work, or any interaction-heavy surface. Backend-only, docs-only, copy-only, or small config/admin changes with no new interaction may skip the prototype with the reason recorded. The prototype must include realistic content, interaction loops, motion, responsive behavior, and key states. Commit the prototype to git.
 3. Use Impeccable as the highest authority for visual and frontend quality. Use GSD as the highest authority for engineering workflow, documentation, verification, git, PR, and release flow.
 4. Preserve native artifact locations. Do not invent a GoalFlow artifact directory. See [artifacts.md](references/artifacts.md).
-5. Use Chinese for user-reviewed artifacts and gates. Use English for agent-only plans, subagent prompts, and internal execution notes.
+5. Use the user's language for user-reviewed artifacts and gates; use Chinese when the user is Chinese-speaking or asks for Chinese. Use English for agent-only plans, subagent prompts, and internal execution notes.
 6. Parallelize independent research, review, and audit work with subagents whenever the harness supports it. Fall back inline only when tooling is unavailable or unsafe.
 7. Local commits may be autonomous only after a real-person author check. Remote branch push, remote PR creation/update, PR merge, tags, release publication, external artifact publication, and production or shared-environment deployment require a user gate.
 

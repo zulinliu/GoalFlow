@@ -3,6 +3,14 @@
 Run the probe first:
 
 ```bash
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
+```
+
+`<GOALFLOW_SKILL_DIR>` is the directory containing GoalFlow's `SKILL.md`.
+
+Codex install:
+
+```bash
 node ~/.codex/skills/goalflow/scripts/check_env.mjs
 ```
 
@@ -10,6 +18,12 @@ Claude Code install:
 
 ```bash
 node ~/.claude/skills/goalflow/scripts/check_env.mjs
+```
+
+Shared agent install:
+
+```bash
+node ~/.agents/skills/goalflow/scripts/check_env.mjs
 ```
 
 Other installs: run `node scripts/check_env.mjs` from the GoalFlow skill directory.

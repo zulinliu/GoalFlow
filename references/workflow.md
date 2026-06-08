@@ -1,22 +1,22 @@
 # GoalFlow Workflow
 
-Use this file for end-to-end feature delivery. User-facing review artifacts and gates should be written in Chinese. Agent-only plans, subagent prompts, and internal execution notes should be written in English.
+Use this file for end-to-end feature delivery. User-facing review artifacts and gates should use the user's language; use Chinese when the user is Chinese-speaking or asks for Chinese. Agent-only plans, subagent prompts, and internal execution notes should be written in English.
 
 ## 1. Probe And Prepare
 
 Run:
 
 ```bash
-node ~/.codex/skills/goalflow/scripts/check_env.mjs
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 ```
 
 Stop for blockers. Do not install Impeccable or GSD automatically unless the user explicitly asks.
 
-If `.planning/` is missing, initialize through GSD before engineering planning. If `PRODUCT.md` is missing, initialize Impeccable product context before design work. If source code exists but `DESIGN.md` is missing, run Impeccable document before major frontend implementation.
+If `.planning/` is missing, initialize through GSD only for bootstrap/context capture before design. Requirements, roadmap commitments, backend/API boundaries, and phase plans must remain provisional or be deferred until after the Impeccable prototype and design review. If `PRODUCT.md` is missing, initialize Impeccable product context before design work. If source code exists but `DESIGN.md` is missing, run Impeccable document before major frontend implementation.
 
 ## 2. Clarify Goal
 
-Default mode asks concise Chinese clarification questions before design. Clarify:
+Default mode asks concise clarification questions in the user's language before design. Clarify:
 
 - Feature purpose and target users.
 - Primary user action.
@@ -52,14 +52,14 @@ Brand threshold:
 
 Before implementation, run a design review:
 
-- Normal mode: present the design and prototype to the user in Chinese and wait for confirmation.
+- Normal mode: present the design and prototype to the user in the user's language and wait for confirmation.
 - `--auto`: skip user confirmation, but spawn autonomous review subagents when available, synthesize findings, apply at least one iteration, then continue.
 
 Use Impeccable as the visual authority. GSD sketch can be used for variant archiving and `.planning/sketches/` management, but it does not replace Impeccable for aesthetics, interaction quality, or frontend craft.
 
 Record the design gate:
 
-- Normal mode: store the Chinese design summary, prototype path, user decision, and requested changes in the relevant Impeccable/GSD artifact.
+- Normal mode: store the user-language design summary, prototype path, user decision, and requested changes in the relevant Impeccable/GSD artifact.
 - `--auto`: store the autonomous review prompt summary, reviewers used or fallback reason, findings, iteration applied, and remaining risks. If no material issue was found, explicitly record that result instead of silently continuing.
 
 Durable artifact suggestions:
@@ -73,7 +73,7 @@ Durable artifact suggestions:
 
 Use GSD for requirements, phase planning, backend/API boundaries, validation, UAT, and execution plans. Backend/API design must trace back to the frontend prototype's user flows and states.
 
-Do not use `$gsd-quick` or `$gsd-autonomous` to bypass GoalFlow design gates for meaningful features. `$gsd-quick` is only for small, low-risk follow-up tasks after design direction is already settled. `$gsd-autonomous` is only appropriate after the GoalFlow design gate and GSD plan are in place.
+Do not use `$gsd-quick` or `$gsd-autonomous` to bypass GoalFlow design gates for meaningful features. `$gsd-quick` is only for small, low-risk follow-up tasks after design direction is already settled; if it touches user-facing UI, run it with validation and an Impeccable review. `$gsd-autonomous` is only appropriate after the GoalFlow design gate and GSD plan are in place, and UI-touching phases still need Impeccable gates.
 
 For large features, prefer:
 

@@ -55,7 +55,7 @@ Prototype requirements:
 
 ## Language
 
-- Chinese: user-reviewed design plans, review reports, release gates, brand narratives, and user-facing summaries.
+- User's language: user-reviewed design plans, review reports, release gates, brand narratives, and user-facing summaries. Use Chinese when the user is Chinese-speaking or asks for Chinese.
 - English: agent-only prompts, internal execution plans, subagent task prompts, and machine-oriented checklists.
 
 ## Autonomous Records
