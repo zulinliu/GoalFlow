@@ -17,6 +17,7 @@ Address reviewed P1/P2 hardening findings after the v0.1.0 release.
 - P1: environment probe runtime and project-root scoping hardened with `--runtime` and `--project`.
 - P1: brand support copy, monochrome mark, Chinese auto wording, and security reporting tightened.
 - P2: README, environment, governance, safety, and contribution details updated.
+- Release process: bilingual English and Simplified Chinese release notes required for every future release.
 
 ## Verification Notes
 

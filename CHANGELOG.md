@@ -16,6 +16,7 @@ All notable changes to GoalFlow are documented here.
 - Hardened environment probe runtime scoping and project-root handling.
 - Clarified `--auto` behavior in English and Chinese docs.
 - Strengthened README gate/artifact narrative, environment examples, artifact lists, security reporting, AI-assisted contribution disclosure, conduct scope, and skill-only release rules.
+- Required bilingual English and Simplified Chinese release notes for future GoalFlow releases.
 
 ## 0.1.0 - 2026-06-09
 
