@@ -17,6 +17,7 @@ All notable changes to GoalFlow are documented here.
 - Clarified `--auto` behavior in English and Chinese docs.
 - Strengthened README gate/artifact narrative, environment examples, artifact lists, security reporting, AI-assisted contribution disclosure, conduct scope, and skill-only release rules.
 - Required bilingual English and Simplified Chinese release notes for future GoalFlow releases.
+- Centralized git/release standing rules and required bilingual English and Simplified Chinese commit messages.
 
 ## 0.1.0 - 2026-06-09
 
