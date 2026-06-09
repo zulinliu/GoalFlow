@@ -1,9 +1,10 @@
 <p align="center">
-  <img src="assets/goalflow-logo.svg" alt="GoalFlow logo" width="520">
+  <img src="assets/goalflow-logo.svg" alt="GoalFlow 字标，包含 G 形流程 gate、目标节点和发布边界" width="520">
 </p>
 
 <p align="center">
-  <strong>一句目标，完整交付。</strong>
+  <strong>一句目标，完整交付。</strong><br>
+  Impeccable 主导设计和原型，GSD 主导工程、验证、持久产物和发布 gate。
 </p>
 
 <p align="center">
@@ -12,7 +13,7 @@
 
 # GoalFlow
 
-GoalFlow 是面向 AI 编程代理的全流程功能交付编排 Skill。用户只需要提出一个功能目标，它就会把这个目标推进成有设计、有原型、有实现、有验证、有文档，并具备发布准备状态的软件交付流程。
+GoalFlow 是面向 AI 编程代理的全流程功能交付编排 Skill。用户只需要提出一个功能目标，它就会把这个目标推进成有设计、有原型、有实现、有验证、有文档、有持久产物，并具备明确发布边界的软件交付流程。
 
 GoalFlow 不是 shell CLI，也不是应用运行时。`$goalflow ...` 示例是给 AI 编程代理或 skill 聊天界面使用的调用方式。只有 `bash` 代码块中的命令才是在终端执行的命令。
 
@@ -24,20 +25,23 @@ AI 编程代理可以很快写代码，但完整功能交付并不只是写代�
 - GSD 负责需求、计划、后端/API、执行、验证、文档、git、PR 准备和发布 gate。
 - GoalFlow 根据阶段和动作自动选择合适的能力，把设计、工程和发布安全串成闭环。
 
-## 工作流程
+## 交付 Gate
 
 ```text
-环境检测 -> 目标澄清 -> 体验设计 -> HTML 原型 -> 设计评审 -> 工程计划 -> 实现验证 -> 发布准备
+环境检测 | 目标澄清 | 体验设计 | HTML 原型 | 设计评审 | 工程计划 | 实现 | 验证 | 发布准备
 ```
 
-1. 检测环境、依赖、git 仓库和 git 作者。
-2. 澄清功能目标，或在 `--auto` 模式记录自主假设。
-3. 使用 Impeccable 设计 UX、视觉系统、交互模型、动效和品牌方向。
-4. 对有意义的用户可见功能产出交互 HTML 原型。
-5. 普通模式等待用户确认设计，`--auto` 模式开启自主子代理评审并至少迭代一版。
-6. 使用 GSD 根据原型反推需求、后端/API 边界、阶段计划、验证和 UAT。
-7. 分阶段执行，并持续使用 Impeccable 和 GSD 把关。
-8. 最终评审、修复 P0/P1 问题、更新文档、准备 PR/release notes，并停在发布 gate。
+每个 gate 都要留下证据：
+
+- 环境检测：运行时范围、项目根目录、git 仓库和真人 git 作者。
+- 目标澄清：用户确认的意图，或 `--auto` 模式记录的自主假设。
+- 体验设计：Impeccable 主导 UX、视觉系统、交互模型、动效和品牌方向。
+- HTML 原型：对有意义的用户可见功能产出交互原型。
+- 设计评审：普通模式等待用户确认；`--auto` 模式开启自主子代理评审并至少迭代一版。
+- 工程计划：GSD 根据原型反推需求、后端/API 边界、阶段计划、验证和 UAT。
+- 实现：分阶段执行，并持续使用 Impeccable 和 GSD 把关。
+- 验证：最终评审、修复 P0/P1、更新文档并记录剩余风险。
+- 发布准备：准备 PR/release notes，并停在明确的发布 gate。
 
 ## 安装
 
@@ -65,30 +69,35 @@ git clone https://github.com/zulinliu/GoalFlow.git ~/.agents/skills/goalflow
 
 ## 环境检测
 
-GoalFlow 需要 Node.js、npm/npx、Git、Impeccable 和 GSD。开始项目变更前先执行检测。
+GoalFlow 需要 Node.js、npm/npx、Git、Impeccable 和 GSD。开始项目变更前，先从目标项目根目录执行检测。
 
 Codex 安装：
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.codex/skills/goalflow/scripts/check_env.mjs
 ```
 
 Claude Code 安装：
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.claude/skills/goalflow/scripts/check_env.mjs
 ```
 
 共享 agent 安装：
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.agents/skills/goalflow/scripts/check_env.mjs
 ```
 
 其他安装方式：
 
 ```bash
-node scripts/check_env.mjs
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime codex
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime claude
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime shared
 ```
 
 检测脚本会检查 Node/npm、git 仓库状态、git 作者、Impeccable、GSD core、GSD skills 和常见产物。缺失时请按 [references/environment.md](references/environment.md) 处理。GoalFlow 不会自动安装依赖，除非用户明确要求。
@@ -110,7 +119,7 @@ $goalflow --brand 做一个新产品首页
 | 模式 | 适合场景 | 行为变化 |
 | --- | --- | --- |
 | `$goalflow <目标>` | 希望先讨论设计，再进入实现。 | GoalFlow 会先做需求澄清、设计和原型，等待设计确认后再推进工程执行。 |
-| `$goalflow --auto <目标>` | 希望跳过常规确认并自主推进。 | GoalFlow 会记录假设并跳过发布前的普通确认，但不会跳过 blocker、破坏性操作、凭据决策、外部状态变更、设计评审或发布 gate。 |
+| `$goalflow --auto <目标>` | 希望跳过常规确认并自主推进。 | GoalFlow 会记录假设，并跳过常规澄清与设计/产品用户确认；但不会跳过自主设计质量评审、blocker、破坏性操作、凭据决策、外部状态变更或发布 gate。 |
 | `$goalflow --brand <目标>` | 功能需要完整品牌文化建设。 | GoalFlow 会推进命名、品牌叙事、Logo 方向、slogan、页面/icon 命名、README 和文档描述统一。 |
 
 ## 原型规则
@@ -135,12 +144,15 @@ Impeccable 产物：
 GSD 产物：
 
 - `.planning/PROJECT.md`
+- `.planning/config.json`
 - `.planning/REQUIREMENTS.md`
 - `.planning/ROADMAP.md`
 - `.planning/STATE.md`
+- `.planning/research/`
 - `.planning/phases/`
 - `.planning/sketches/`
-- `.planning/research/`
+- `.planning/debug/`
+- `.planning/intel/`
 
 详见 [references/artifacts.md](references/artifacts.md)。
 
@@ -170,13 +182,17 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ├── README.md
 ├── README.zh-CN.md
 ├── PRODUCT.md
+├── DESIGN.md
 ├── goalflow-design.md
 ├── goalflow-brand-culture.md
+├── .planning/
 ├── references/
 ├── scripts/
 ├── assets/
 └── .github/
 ```
+
+正式发行包遵守 [references/release-gates.md](references/release-gates.md) 中的 skill-only 白名单，因此仓库规划和治理文件不会进入 canonical release assets。
 
 ## 路线图
 
@@ -186,6 +202,8 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ## 贡献
 
 提交 PR 前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。欢迎 AI 辅助贡献，但每个 commit 和 PR 都必须由具体的人负责。
+
+社区沟通和协作要求见 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
 
 ## 版本记录
 

@@ -1,0 +1,8 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">GoalFlow monochrome mark</title>
+  <desc id="desc">A one-color G-shaped flow gate with a goal entry and release exit.</desc>
+  <path d="M72 20H49C32.984 20 20 32.984 20 49v30c0 16.016 12.984 29 29 29h30c16.016 0 29-12.984 29-29V65H68" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M51 65h57" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="43" cy="65" r="8" fill="currentColor"/>
+  <circle cx="108" cy="65" r="8" fill="currentColor"/>
+</svg>

@@ -65,6 +65,25 @@ Do not attach repository-management, planning, review, prototype scratch, or gov
 
 GitHub may display automatically generated source archives for every tag. Treat those as repository snapshots, not canonical GoalFlow skill packages. The release notes must point users to the attached skill-only package when one is provided.
 
+## Bilingual Release Notes
+
+GoalFlow release notes must be bilingual in English and Simplified Chinese.
+
+Every published release must include:
+
+- English summary.
+- 简体中文摘要。
+- English change list.
+- 简体中文变更清单。
+- English verification notes.
+- 简体中文验证说明。
+- English canonical asset note that identifies the skill-only package.
+- 简体中文正式资产说明，明确指出 skill-only 发布包。
+- English rollback note.
+- 简体中文回滚说明。
+
+Use English first for GitHub's default open-source audience, then Simplified Chinese. Do not publish a release with English-only or Chinese-only notes unless the user explicitly overrides this rule for a one-off private release and the exception is recorded.
+
 ## Chinese Gate Templates
 
 Design gate:
@@ -101,7 +120,8 @@ Before asking for the release gate:
 6. Git status is understood.
 7. Git author is valid.
 8. Release assets are skill-only according to the Release Artifact Scope.
-9. PR/release notes describe user-visible changes, verification, risks, rollback notes, and the canonical skill package when applicable.
+9. Release notes are bilingual according to Bilingual Release Notes.
+10. PR/release notes describe user-visible changes, verification, risks, rollback notes, and the canonical skill package when applicable.
 
 ## GSD Release Routes
 

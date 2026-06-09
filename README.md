@@ -1,9 +1,10 @@
 <p align="center">
-  <img src="assets/goalflow-logo.svg" alt="GoalFlow logo" width="520">
+  <img src="assets/goalflow-logo.svg" alt="GoalFlow wordmark with a G-shaped flow gate, goal nodes, and release boundary" width="520">
 </p>
 
 <p align="center">
-  <strong>One goal. Full delivery.</strong>
+  <strong>One goal. Full delivery.</strong><br>
+  Impeccable-led design and prototype, GSD-led engineering, verification, durable artifacts, and release gates.
 </p>
 
 <p align="center">
@@ -12,7 +13,7 @@
 
 # GoalFlow
 
-GoalFlow is an end-to-end feature delivery orchestration skill for AI coding agents. It turns one feature goal into a designed, prototyped, implemented, verified, documented, and release-ready delivery flow.
+GoalFlow is an end-to-end feature delivery orchestration skill for AI coding agents. It turns one feature goal into a designed, prototyped, implemented, verified, documented, and release-ready delivery flow with durable artifacts and explicit publication boundaries.
 
 GoalFlow is not a shell CLI or application runtime. `$goalflow ...` examples are agent-chat skill invocations. Only commands shown in `bash` blocks are terminal commands.
 
@@ -24,20 +25,23 @@ AI coding agents can move quickly, but feature work often loses quality when des
 - GSD leads requirements, planning, backend/API design, execution, verification, documentation, git hygiene, PR preparation, and release gates.
 - GoalFlow routes each phase to the right specialist, records durable artifacts, and keeps release work behind explicit safety gates.
 
-## How It Works
+## Delivery Gates
 
 ```text
-Probe -> Clarify -> Design -> Prototype -> Review -> Plan -> Build -> Verify -> Ship
+Probe | Clarify | Design | Prototype | Review | Plan | Build | Verify | Ship
 ```
 
-1. Probe the environment, dependencies, git repository, and git author.
-2. Clarify the feature goal, or record autonomous assumptions in `--auto`.
-3. Use Impeccable to design the UX, visual system, interaction model, motion, and brand direction.
-4. Produce an interactive HTML prototype for meaningful user-facing features.
-5. Review the design with the user, or run autonomous subagent review in `--auto`.
-6. Use GSD to derive requirements, backend/API boundaries, phase plans, validation, and UAT.
-7. Execute in phases with Impeccable and GSD quality gates.
-8. Run final review, repair P0/P1 findings, update docs, prepare PR/release notes, and stop at the release gate.
+Every gate leaves evidence:
+
+- Probe: environment, runtime scope, project root, git repository, and real-person git author.
+- Clarify: user-reviewed intent, or recorded assumptions in `--auto`.
+- Design: Impeccable-led UX, visual system, interaction model, motion, and brand direction.
+- Prototype: interactive HTML prototype for meaningful user-facing work.
+- Review: user design confirmation, or autonomous subagent review plus at least one iteration in `--auto`.
+- Plan: GSD requirements, backend/API boundaries, phase plans, validation, and UAT.
+- Build: phased implementation with Impeccable and GSD quality gates.
+- Verify: final review, repair P0/P1 findings, update docs, and record residual risk.
+- Ship: prepare PR/release notes and stop at the explicit release gate.
 
 ## Install
 
@@ -65,30 +69,35 @@ If your harness uses a different skill directory, clone this repository there as
 
 ## Environment Check
 
-GoalFlow needs Node.js, npm/npx, Git, Impeccable, and GSD. Run the probe before project changes.
+GoalFlow needs Node.js, npm/npx, Git, Impeccable, and GSD. Run the probe from the target project root before project changes.
 
 Codex install:
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.codex/skills/goalflow/scripts/check_env.mjs
 ```
 
 Claude Code install:
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.claude/skills/goalflow/scripts/check_env.mjs
 ```
 
 Shared agent install:
 
 ```bash
+cd <PROJECT_ROOT>
 node ~/.agents/skills/goalflow/scripts/check_env.mjs
 ```
 
 Other installs:
 
 ```bash
-node scripts/check_env.mjs
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime codex
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime claude
+node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime shared
 ```
 
 The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, and common artifact presence. If anything is missing, follow [references/environment.md](references/environment.md). GoalFlow does not install dependencies automatically unless the user explicitly asks.
@@ -110,7 +119,7 @@ Chinese examples and review gates are documented in [README.zh-CN.md](README.zh-
 | Mode | Use it when | What changes |
 | --- | --- | --- |
 | `$goalflow <goal>` | You want normal design discussion before implementation. | GoalFlow asks concise clarification questions, produces design/prototype artifacts, waits for design confirmation, then executes. |
-| `$goalflow --auto <goal>` | You want autonomous progress without routine confirmations. | GoalFlow records assumptions and skips pre-release confirmations, but never skips blockers, destructive actions, credential decisions, external-state changes, design review, or release gates. |
+| `$goalflow --auto <goal>` | You want autonomous progress without routine confirmations. | GoalFlow records assumptions and skips routine clarification plus design/product user confirmations; it still runs autonomous design review, applies at least one iteration or records no material issue, and never skips blockers, destructive actions, credential decisions, external-state changes, or release gates. |
 | `$goalflow --brand <goal>` | The feature needs public identity work. | GoalFlow runs naming, narrative, logo direction, slogan, page/icon naming, README language, and documentation consistency work. |
 
 ## Prototype Rule
@@ -135,12 +144,15 @@ Impeccable artifacts:
 GSD artifacts:
 
 - `.planning/PROJECT.md`
+- `.planning/config.json`
 - `.planning/REQUIREMENTS.md`
 - `.planning/ROADMAP.md`
 - `.planning/STATE.md`
+- `.planning/research/`
 - `.planning/phases/`
 - `.planning/sketches/`
-- `.planning/research/`
+- `.planning/debug/`
+- `.planning/intel/`
 
 See [references/artifacts.md](references/artifacts.md).
 
@@ -170,8 +182,14 @@ See [references/release-gates.md](references/release-gates.md).
 ├── README.md
 ├── README.zh-CN.md
 ├── PRODUCT.md
+├── DESIGN.md
 ├── goalflow-design.md
 ├── goalflow-brand-culture.md
+├── .planning/
+│   ├── PROJECT.md
+│   ├── ROADMAP.md
+│   ├── STATE.md
+│   └── config.json
 ├── references/
 │   ├── artifacts.md
 │   ├── environment.md
@@ -183,11 +201,14 @@ See [references/release-gates.md](references/release-gates.md).
 │   └── check_env.mjs
 ├── assets/
 │   ├── goalflow-logo.svg
-│   └── goalflow-mark.svg
+│   ├── goalflow-mark.svg
+│   └── goalflow-mark-mono.svg
 └── .github/
     ├── ISSUE_TEMPLATE/
     └── pull_request_template.md
 ```
+
+Release packages use the skill-only whitelist in [references/release-gates.md](references/release-gates.md), so repository planning and governance files are not included in canonical release assets.
 
 ## Roadmap
 
@@ -197,6 +218,8 @@ See [references/release-gates.md](references/release-gates.md).
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR. AI-assisted contributions are welcome, but every commit and PR must remain accountable to a specific human author and reviewer.
+
+Also read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations.
 
 ## Changelog
 

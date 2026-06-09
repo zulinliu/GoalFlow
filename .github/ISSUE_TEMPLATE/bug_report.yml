@@ -8,6 +8,9 @@ body:
     attributes:
       value: |
         Thanks for reporting a GoalFlow issue. Do not include secrets, private repository names, or exploitable security details in public issues.
+
+        Security-sensitive reports should use GitHub private vulnerability reporting:
+        https://github.com/zulinliu/GoalFlow/security/advisories/new
   - type: input
     id: version
     attributes:
@@ -69,7 +72,7 @@ body:
         - label: This may affect release gates.
         - label: This may affect dependency installation guidance.
         - label: This may affect remote push, PR, tag, release, package, artifact, deploy, or shared external state.
-        - label: This may be security-sensitive and should move to private reporting.
+        - label: This may be security-sensitive and I will move details to private reporting instead of posting them publicly.
   - type: textarea
     id: notes
     attributes:

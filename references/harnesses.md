@@ -6,7 +6,7 @@ GoalFlow must work across harnesses, with Codex and Claude as first-class target
 
 - Use `request_user_input` when available for user gates.
 - If `request_user_input` is unavailable, ask concise plain-text questions and stop.
-- Use available multi-agent tools for parallel research/review when the user explicitly requested subagents or the harness permits autonomous subagents for that workflow. If subagent tools are deferred, discover them first when the environment supports tool discovery.
+- Use available multi-agent tools for parallel research/review when the user explicitly requested subagents or the current harness policy/instructions permit autonomous subagents for that workflow. If subagent tools are deferred, discover them first when the environment supports tool discovery.
 - If no subagent tool is available, execute inline and record the downgrade reason.
 - For Impeccable live mode, follow Impeccable's Codex-specific instructions. Do not run live polling in a background shell if the local Impeccable reference says Codex needs foreground polling.
 - Use Playwright/browser/screenshots when available to verify prototypes and frontend implementation.
@@ -27,7 +27,7 @@ Use equivalent mechanisms:
 
 ## Parallel Work Rule
 
-Prefer subagents for independent:
+Prefer subagents for independent work when permitted by the current harness policy/instructions:
 
 - Codebase mapping.
 - Domain or competitor research.

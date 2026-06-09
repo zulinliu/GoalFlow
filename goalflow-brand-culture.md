@@ -45,16 +45,17 @@ One goal. Full delivery.
 
 支持文案：
 
-Impeccable-led design and prototype, GSD-led engineering and release.
+Impeccable-led design and prototype, GSD-led engineering, verification, durable artifacts, and release gates.
 
 中文支持文案：
 
-Impeccable 主导设计和原型，GSD 主导工程和发布。
+Impeccable 主导设计和原型，GSD 主导工程、验证、持久产物和发布 gate。
 
 使用原则：
 
 - README、仓库描述和首屏传播使用主 slogan。
 - 在 slogan 后必须紧跟支持文案，避免 GoalFlow 被理解成泛化自动化工具。
+- 支持文案必须同时表达验证、持久产物和发布边界，避免只停留在“设计 + 工程”的普通协作工具语义。
 - 不反复堆叠 slogan，重点讲清楚输入、流程、产物和安全边界。
 
 ## 品牌文化支柱
@@ -105,6 +106,7 @@ v0.1.0 先落地 Flow Gate 系列：
 
 - `assets/goalflow-logo.svg`：README 和开源传播使用的横向标识。
 - `assets/goalflow-mark.svg`：小尺寸标识和未来 favicon/avatar 基础。
+- `assets/goalflow-mark-mono.svg`：16px/24px、小尺寸单色、mask、badge、打印和高对比表面使用。
 
 视觉元素含义：
 
@@ -112,6 +114,13 @@ v0.1.0 先落地 Flow Gate 系列：
 - 铜色目标点：用户给出的功能目标和最终发布节点。
 - `G` 形路径：GoalFlow 的名称识别。
 - gate 开口：自主推进必须通过安全边界。
+
+小尺寸规则：
+
+- 16px 和 24px 优先使用 `goalflow-mark-mono.svg`。
+- 32px 及以上可使用彩色 `goalflow-mark.svg`。
+- README、社交分享和文档首页使用 `goalflow-logo.svg`。
+- 不要把包含 slogan 的完整横向标识强塞到头像、favicon 或紧凑按钮中。
 
 ## 视觉方向
 
@@ -134,7 +143,7 @@ v0.1.0 先落地 Flow Gate 系列：
 1. Logo + slogan。
 2. 说明 GoalFlow 是 agent skill，不是 shell CLI。
 3. Why GoalFlow。
-4. How it works。
+4. Delivery gates，以 gate 和 artifact 为中心，不使用普通箭头 pipeline。
 5. Install。
 6. Environment check。
 7. Usage。
