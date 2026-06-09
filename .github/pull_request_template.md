@@ -12,7 +12,7 @@ Describe what changed and why.
 # Agent And Authorship
 
 - [ ] I understand that `$goalflow ...` examples are agent-chat skill invocations, not shell commands.
-- [ ] AI assistance, if used, is disclosed in the PR discussion or commit context.
+- [ ] AI assistance, if used, is disclosed with tool/model when known, assistance scope, human review, and tests/docs checks.
 - [ ] Every commit is accountable to a specific human author.
 - [ ] No commit uses an agent, bot, no-reply, service, or generic automation identity as the git author.
 

@@ -1,5 +1,7 @@
 # GoalFlow 设计方案
 
+> 本文件是 GoalFlow 初始中文设计方案和决策记录。当前 canonical Impeccable 设计系统为根目录 `DESIGN.md`；本文件保留需求澄清、中文讨论结论和历史设计脉络。
+
 ## 项目定位
 
 GoalFlow 是一个面向 AI 编程代理的全流程功能交付编排 Skill。用户只需要提出“做一个 XXX 功能”，GoalFlow 就按前端体验优先的方式，先用 Impeccable 打磨功能设计、品牌体验、交互动效和 HTML 原型，再用 GSD 反推需求、API、后端、任务拆解、验证、文档、PR 和发布闭环。
@@ -32,7 +34,7 @@ GSD 是工程流程和交付闭环最高裁决层，负责需求、规划、后�
 4. 原生落档：GoalFlow 不新增自己的抢占式产物目录，严格遵守 Impeccable 和 GSD 的落档规范。
 5. 并行优先：凡是可以并行的调研、竞品分析、代码扫描、UI 审查、后端审查、测试缺口审查、发布前检查，都优先用子代理并行。
 6. 中文审查：需要用户审查的文档使用中文，主要给 agent 消费的内部执行文档使用英文。
-7. 发布 gate：本地 commit 可自动，PR 合并、tag、release 必须由用户在发布 gate 确认。
+7. 发布 gate：本地 commit 只有在真人作者检查通过后才可自动；远程 push、PR 创建/更新/合并、tag、release、外部 artifact 发布、生产或共享环境变更都必须由用户在发布 gate 确认。
 
 ## 参数设计
 
@@ -50,7 +52,7 @@ $goalflow --brand 做一个 XXX 功能
 
 1. 环境检测：检查 Impeccable、GSD、Node/npm、git 仓库、git author、GSD skills、Impeccable scripts。缺失时给详细安装命令和步骤，不自动安装，除非用户明确要求。
 2. 项目初始化：缺 `.planning/` 时自动走 GSD 初始化。缺 `PRODUCT.md` 时必须走 Impeccable init。已有代码但缺 `DESIGN.md` 时优先 Impeccable document。
-3. 目标理解与澄清：默认中文澄清。`--auto` 跳过用户确认，但不跳过设计评审。
+3. 目标理解与澄清：使用用户语言澄清；中文用户使用中文。`--auto` 跳过常规澄清和设计/产品用户确认，但不跳过自主设计质量评审、blocker、破坏性操作、凭据决策、外部状态变更或发布 gate。
 4. 前端体验优先设计：使用 Impeccable 确定 UX、UI、交互、动效、状态、视觉方向和品牌表达。
 5. 交互 HTML 原型：由 Impeccable 主控美感与体验；需要多方案归档时，可用 GSD sketch 存到 `.planning/sketches/`。
 6. 工程设计与计划：用 GSD 生成或更新需求、phase、context、PLAN、VALIDATION、UAT。
@@ -58,7 +60,7 @@ $goalflow --brand 做一个 XXX 功能
 8. 自主设计评审：`--auto` 模式必须自主开启子代理深度评审设计，基于评审至少迭代一版，再继续工程执行。
 9. 品牌文化：`--brand` 进入完整品牌文化工程，包括功能命名、品牌叙事、logo 方向、slogan、页面名称、icon、README 叙事和文档描述统一更新。
 10. 收尾评审与优化：多代理评审 UI、交互、性能、a11y、代码、测试、安全、文档、生产可用性。所有 P0/P1 必须修复并复审。
-11. 发布准备：检查 git author 必须是具体人，不能是 Codex、Claude、Hapi 等 agent。自动准备本地 commit、PR 内容和 release notes。PR 合并、tag、release 必须进入发布 gate。
+11. 发布准备：检查 git author 必须是具体人，不能是 Codex、Claude、Hapi 等 agent，也要检查 `GIT_AUTHOR_*` 和 `GIT_COMMITTER_*` 环境变量覆盖。自动准备本地 commit、PR 内容和 release notes。远程 push、PR 创建/更新/合并、tag、release、外部 artifact 发布、部署和共享外部状态变更必须进入发布 gate。发行版正式资产必须遵守 skill-only 白名单。
 
 ## 产物规则
 

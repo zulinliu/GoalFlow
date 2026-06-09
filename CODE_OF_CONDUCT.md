@@ -2,6 +2,10 @@
 
 GoalFlow is built for practical, high-quality collaboration around AI-assisted software delivery. Contributors are expected to keep discussions clear, respectful, and focused on the work.
 
+## Scope
+
+This code applies to participation in the GoalFlow repository, issues, pull requests, discussions, release coordination, documentation, and related community spaces controlled by the maintainers.
+
 ## Expected Behavior
 
 - Be direct and constructive.
@@ -24,4 +28,6 @@ GoalFlow is built for practical, high-quality collaboration around AI-assisted s
 
 Maintainers may warn, moderate, close, or remove comments, issues, PRs, or contributions that violate this code. Serious or repeated violations may lead to temporary or permanent restrictions from participating in the project.
 
-If you need to report a conduct issue, contact the maintainers through the repository owner profile. Do not disclose private personal details in public issues.
+If a maintainer is involved in a conduct concern, another available maintainer should handle the report when possible. If no conflict-free maintainer is available, the responding maintainer should keep the process narrow, document the decision, and avoid using conduct enforcement to win technical disagreements.
+
+If you need to report a conduct issue, email 277557317@qq.com with the subject `GoalFlow conduct report`. Do not disclose private personal details in public issues.

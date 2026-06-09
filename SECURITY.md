@@ -6,7 +6,11 @@ GoalFlow is an AI coding-agent skill. Security-sensitive issues may involve loca
 
 Do not open public issues with exploitable details.
 
-Use GitHub private vulnerability reporting for this repository when available. If private reporting is unavailable, contact the maintainers through the repository owner profile and share only a minimal public note asking for a private security contact.
+Use GitHub private vulnerability reporting:
+
+https://github.com/zulinliu/GoalFlow/security/advisories/new
+
+If GitHub private vulnerability reporting is unavailable, email the maintainer at 277557317@qq.com with the subject `GoalFlow security report`. Share only a minimal public note if you must request a private contact path.
 
 Include:
 
@@ -19,6 +23,22 @@ Include:
 - impact
 - whether the issue can trigger remote mutation, release publication, credential exposure, or unsafe dependency installation
 
+## Supported Versions
+
+| Version | Supported |
+| --- | --- |
+| `v0.1.x` and later | Yes |
+| older unreleased commits | Best effort |
+
+## Response Expectations
+
+- Initial acknowledgement: within 7 days when the report reaches a working private channel.
+- Triage update: within 14 days for actionable reports.
+- Fix or mitigation target: coordinated based on impact, exploitability, and maintainer availability.
+- Public disclosure: after a fix, mitigation, or explicit maintainer decision that no vulnerability exists.
+
+Please avoid publishing exploit details before maintainers have had a reasonable chance to respond.
+
 ## Safety Expectations
 
 GoalFlow should not:
@@ -30,4 +50,4 @@ GoalFlow should not:
 
 ## Public Issue Guidance
 
-For non-sensitive bugs, use the bug report template. For security-sensitive issues, avoid logs, tokens, private repository names, exploit payloads, or exact instructions that allow abuse.
+For non-sensitive bugs, use the bug report template. For security-sensitive issues, use the private advisory link above and avoid public logs, tokens, private repository names, exploit payloads, or exact instructions that allow abuse.

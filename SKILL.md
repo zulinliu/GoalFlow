@@ -11,19 +11,20 @@ GoalFlow turns one feature goal into a designed, prototyped, implemented, verifi
 
 ## First Action
 
-Run the environment probe before any project changes:
+Run the environment probe from the target project root before any project changes:
 
 ```bash
+cd <PROJECT_ROOT>
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 ```
 
-`<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
+`<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If running from another directory, pass `--project <PROJECT_ROOT>` and `--runtime codex|claude|shared`. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
 
 ## Modes
 
 Parse only these flags:
 
-- `--auto`: Skip pre-release clarification and design/product confirmations, but do not skip design quality gates, blockers, destructive actions, credential decisions, external-state changes, or release gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
+- `--auto`: Skip clarification and design/product user confirmations, but do not skip autonomous design review, blockers, destructive actions, credential decisions, external-state changes, or release gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
 - `--brand`: Run the full feature brand culture path: naming, narrative, logo direction, slogan, icon/page naming, README and docs language.
 
 No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md).

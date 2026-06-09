@@ -22,6 +22,14 @@ node scripts/check_env.mjs
 
 AI-assisted contributions are welcome, but every commit and PR must be accountable to a specific human author and reviewer.
 
+When AI assistance is used, disclose:
+
+- tool and model when known, for example Codex with the selected model or Claude Code with the selected model
+- scope of assistance, for example design review, documentation drafting, code editing, or test generation
+- human review performed
+- tests, checks, or docs verification performed
+- any generated content that was intentionally kept
+
 Do not use these as git authors:
 
 - Codex
@@ -74,7 +82,7 @@ PRs should include:
 - why it changed
 - how it was verified
 - whether docs were updated
-- whether AI assistance was used
+- whether AI assistance was used, including tool/model when known, scope, human review, and tests/docs checks
 - confirmation that git authorship belongs to a specific human
 
 Small documentation fixes are welcome. Larger behavior changes should include an issue or design note first.
