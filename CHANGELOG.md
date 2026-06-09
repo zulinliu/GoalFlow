@@ -2,7 +2,18 @@
 
 All notable changes to GoalFlow are documented here.
 
-## 0.2.0 - Unreleased
+## 0.3.0 - Unreleased
+
+### Added
+
+- Repository-level `AGENTS.md` memory for Codex and compatible coding agents.
+- Thin `CLAUDE.md` importer so Claude Code loads the shared `AGENTS.md` rules without duplicated guidance.
+
+### Changed
+
+- Updated planning state for the v0.3.0 memory-file workstream.
+
+## 0.2.0 - 2026-06-09
 
 ### Added
 
