@@ -43,7 +43,8 @@ Do not duplicate long instructions across files. Put stable process detail in `r
 - Always verify the active branch with `git status --short --branch`; do not rely on remembered branch names.
 - `v0.1.0`: initial skill, workflow references, environment probe, release gates, bilingual README, brand assets, governance.
 - `v0.2.0`: `DESIGN.md`, `.planning/` seed, scoped env probe, mono mark, stronger governance, bilingual release notes and commits.
-- `v0.3.0` scope: agent context memory files for Codex and Claude.
+- `v0.3.0`: agent context memory files for Codex and Claude.
+- Post-`v0.3.0` docs fix: README release-install guidance, roadmap freshness, and README version-sync gate.
 
 Before starting work:
 
@@ -58,7 +59,7 @@ Preserve user work. Do not reset, checkout, or revert unrelated changes unless t
 
 The centralized rule source is `references/release-gates.md`.
 
-Three standing output rules: release assets are skill-only packages, release notes are bilingual English + Simplified Chinese, and commit messages are bilingual English + Simplified Chinese.
+Four standing output rules: release assets are skill-only packages, release notes are bilingual English + Simplified Chinese, commit messages are bilingual English + Simplified Chinese, and README files are reviewed and updated for every version iteration.
 
 Commit subject format:
 
@@ -124,6 +125,7 @@ For release-packaging changes, also run the skill-only archive check above.
 - Do not add dependencies unless the user explicitly approves.
 - Do not create a new GoalFlow artifact directory. Preserve Impeccable and GSD native locations.
 - If public behavior changes, update both `README.md` and `README.zh-CN.md`.
+- For every version iteration, review both README files for install instructions, roadmap/version history, repository structure, usage examples, safety rules, and Chinese mirror parity. If no README change is needed, record why in PR or release preparation notes.
 - If skill behavior changes, update `SKILL.md` and the relevant `references/` file.
 - If release, git, or author rules change, update `references/release-gates.md` first.
 - If brand/design changes, update `PRODUCT.md`, `DESIGN.md`, and/or `goalflow-brand-culture.md` as appropriate.
@@ -165,6 +167,7 @@ Do not pass subagents the expected answer when the goal is independent validatio
 - Confusing GitHub tag source archives with canonical skill release packages.
 - Allowing another runtime's Impeccable/GSD install to satisfy the current runtime check.
 - Adding README/governance files to release assets.
+- Forgetting README updates when releases change installation, roadmap, version history, governance, repository structure, or agent context files.
 - Forgetting Chinese mirror updates when public English docs change.
 - Creating agent-authored commits.
 - Using English-only commit messages or English-only release notes.

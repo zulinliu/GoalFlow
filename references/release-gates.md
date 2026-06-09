@@ -4,11 +4,12 @@ Read this before PR, merge, tag, release, or deployment work.
 
 ## Git And Release Standing Rules
 
-GoalFlow has three standing git/release output rules. Keep these rules together here and follow them for all future work:
+GoalFlow has four standing git/release output rules. Keep these rules together here and follow them for all future work:
 
 1. Release assets must be skill-only packages. See [Release Artifact Scope](#release-artifact-scope).
 2. Release notes must be bilingual in English and Simplified Chinese. See [Bilingual Release Notes](#bilingual-release-notes).
 3. Commit messages must be bilingual in English and Simplified Chinese. See [Bilingual Commit Messages](#bilingual-commit-messages).
+4. README files must be updated with each version iteration. See [README Version Sync](#readme-version-sync).
 
 The Author Gate below is a separate safety gate: commits and release work still require a specific human git author.
 
@@ -115,6 +116,20 @@ fix: scope environment probe by runtime / 修复：按运行时限定环境检�
 
 If a commit body is needed, include English first and then Simplified Chinese. Keep both versions concise and equivalent. Do not use agent, bot, no-reply, service, or generic automation identities as git authors.
 
+## README Version Sync
+
+Every version iteration must check and update both `README.md` and `README.zh-CN.md` before PR, tag, or release work.
+
+At minimum, review and refresh:
+
+- Install instructions, especially the latest GitHub Release skill-only package path and version.
+- Usage examples when modes, flags, or invocation wording change.
+- Roadmap and version history when a release adds user-visible capabilities, governance, installation, compatibility, or workflow changes.
+- Repository structure when root files, agent memory files, artifact locations, or governance files are added or removed.
+- Safety, release, or contribution sections when git/release rules change.
+
+If a version has no README-impacting change, record that conclusion in the PR or release preparation notes. Do not rely on `CHANGELOG.md` alone for user-facing version communication.
+
 ## Chinese Gate Templates
 
 Design gate:
@@ -146,13 +161,13 @@ Before asking for the release gate:
 1. No P0/P1 review findings remain.
 2. Prototype and implementation match the approved or autonomously reviewed design direction.
 3. Tests/build pass or failures are explicitly explained.
-4. User-facing docs and README are updated when the feature changes public behavior.
+4. `README.md` and `README.zh-CN.md` have been reviewed against the version changes and updated, or the no-change reason is recorded.
 5. `.planning/` and Impeccable artifacts are up to date.
 6. Git status is understood.
 7. Git author is valid.
 8. Release assets are skill-only according to the Release Artifact Scope.
 9. Release notes are bilingual according to Bilingual Release Notes.
-10. PR/release notes describe user-visible changes, verification, risks, rollback notes, and the canonical skill package when applicable.
+10. PR/release notes describe README sync status, user-visible changes, verification, risks, rollback notes, and the canonical skill package when applicable.
 
 ## GSD Release Routes
 

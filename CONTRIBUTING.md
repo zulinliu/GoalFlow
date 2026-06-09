@@ -59,6 +59,7 @@ Commit messages must follow the bilingual English and Simplified Chinese format 
 - Keep workflow details in `references/` instead of overloading the README.
 - Keep public docs clear about the difference between agent invocations and shell commands.
 - Update both `README.md` and `README.zh-CN.md` when public behavior changes.
+- For every version iteration, review both README files for install instructions, roadmap/version history, repository structure, usage examples, safety/release rules, and Chinese mirror parity. If no README change is needed, record why in the PR or release preparation notes.
 - Update `CHANGELOG.md` for user-visible changes.
 - Preserve native Impeccable and GSD artifact locations.
 
@@ -83,7 +84,7 @@ PRs should include:
 - what changed
 - why it changed
 - how it was verified
-- whether docs were updated
+- whether docs were updated, including README sync status for version iterations
 - whether AI assistance was used, including tool/model when known, scope, human review, and tests/docs checks
 - confirmation that git authorship belongs to a specific human
 
