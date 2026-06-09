@@ -4,19 +4,19 @@ Updated: 2026-06-09
 
 ## Branch
 
-`feat/v0.2.0`
+`feat/v0.3.0`
 
 ## Current Focus
 
-Address reviewed P1/P2 hardening findings after the v0.1.0 release.
+Add project-level agent context memory files for Codex and Claude so future GoalFlow iterations retain repository conventions, release rules, validation commands, and historical lessons.
 
-## Review Findings Status
+## Completed v0.2.0 Hardening
 
-- P1: canonical Impeccable design artifact added as `DESIGN.md`.
-- P1: GSD planning seed added in `.planning/`.
-- P1: environment probe runtime and project-root scoping hardened with `--runtime` and `--project`.
-- P1: brand support copy, monochrome mark, Chinese auto wording, and security reporting tightened.
-- P2: README, environment, governance, safety, and contribution details updated.
+- Canonical Impeccable design artifact added as `DESIGN.md`.
+- GSD planning seed added in `.planning/`.
+- Environment probe runtime and project-root scoping hardened with `--runtime` and `--project`.
+- Brand support copy, monochrome mark, Chinese auto wording, and security reporting tightened.
+- README, environment, governance, safety, and contribution details updated.
 - Release process: bilingual English and Simplified Chinese release notes required for every future release.
 - Git process: commit messages must be bilingual in English and Simplified Chinese.
 
@@ -26,6 +26,14 @@ Address reviewed P1/P2 hardening findings after the v0.1.0 release.
 - `node scripts/check_env.mjs --runtime claude --project . --json` passes in the current environment.
 - `git diff --check` passes.
 
-## Release Notes
+## Release Gate
 
-Do not publish a new release until all P1 findings are closed, checks pass, and the user approves remote release actions.
+Do not publish a new release until current-version P0/P1 findings are closed, checks pass, and the user approves remote release actions.
+
+## v0.3.0 Work
+
+- Created `AGENTS.md` as the primary shared project-memory entrypoint.
+- Created `CLAUDE.md` as a thin Claude Code import of `AGENTS.md`.
+- Memory files summarize GoalFlow identity, file map, workflow, environment checks, git/release rules, validation commands, and common failure modes.
+- Added `CHANGELOG.md` entry for the v0.3.0 memory-file work.
+- Codex subagent review found no remaining P0/P1/P2 issues after state cleanup and memory-file de-duplication.
