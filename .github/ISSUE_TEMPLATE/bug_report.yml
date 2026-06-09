@@ -1,0 +1,76 @@
+name: Bug report
+description: Report a GoalFlow behavior, documentation, install, or safety-gate problem.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a GoalFlow issue. Do not include secrets, private repository names, or exploitable security details in public issues.
+  - type: input
+    id: version
+    attributes:
+      label: GoalFlow version or commit
+      description: Provide a tag, commit SHA, or branch.
+      placeholder: "0.1.0 or commit SHA"
+    validations:
+      required: true
+  - type: dropdown
+    id: harness
+    attributes:
+      label: Agent harness
+      options:
+        - Codex
+        - Claude Code
+        - Shared agent skills directory
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS, Linux, Windows, WSL"
+  - type: textarea
+    id: invocation
+    attributes:
+      label: Agent invocation or terminal command
+      description: Use this to distinguish agent-chat invocations from real shell commands.
+      placeholder: "$goalflow --auto build a feature, or node scripts/check_env.mjs"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety impact
+      options:
+        - label: This may affect git author checks.
+        - label: This may affect release gates.
+        - label: This may affect dependency installation guidance.
+        - label: This may affect remote push, PR, tag, release, package, artifact, deploy, or shared external state.
+        - label: This may be security-sensitive and should move to private reporting.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context

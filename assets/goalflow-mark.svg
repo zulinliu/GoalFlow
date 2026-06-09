@@ -1,0 +1,9 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">GoalFlow mark</title>
+  <desc id="desc">A cobalt G-shaped flow path with copper goal nodes and an open release gate.</desc>
+  <rect width="128" height="128" rx="22" fill="#F8FAFC"/>
+  <path d="M72 22H48C33.641 22 22 33.641 22 48v32c0 14.359 11.641 26 26 26h32c14.359 0 26-11.641 26-26V66H68" stroke="#174EA6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M53 66h53" stroke="#174EA6" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="45" cy="66" r="7" fill="#B66A2C"/>
+  <circle cx="106" cy="66" r="7" fill="#B66A2C"/>
+</svg>
