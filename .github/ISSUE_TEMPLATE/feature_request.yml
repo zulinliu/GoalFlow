@@ -1,0 +1,52 @@
+name: Feature request
+description: Propose an improvement to GoalFlow.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What GoalFlow user problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Skill routing
+        - Impeccable design/prototype flow
+        - GSD engineering workflow
+        - Environment detection
+        - Release gates
+        - Documentation
+        - Branding
+        - Harness compatibility
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example invocation or workflow
+      description: Remember that `$goalflow ...` is an agent-chat skill invocation, not a terminal command.
+      placeholder: "$goalflow --brand build a new product homepage"
+  - type: checkboxes
+    id: artifacts
+    attributes:
+      label: Artifact impact
+      options:
+        - label: This changes `SKILL.md`.
+        - label: This changes `references/`.
+        - label: This changes README or public docs.
+        - label: This changes environment detection.
+        - label: This changes safety gates or release behavior.
