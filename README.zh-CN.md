@@ -158,6 +158,8 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 - 部署到生产或共享环境
 - 修改会影响协作者、用户、自动化或通知的共享外部状态
 
+发行版资产只能包含可安装的 skill 产物，具体范围见 [references/release-gates.md](references/release-gates.md)。GitHub 可能自动展示 tag 源码快照，但 GoalFlow 的正式发布包必须保持 skill-only。
+
 详见 [references/release-gates.md](references/release-gates.md)。
 
 ## 仓库结构

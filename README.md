@@ -158,6 +158,8 @@ GoalFlow must not perform these actions without explicit user confirmation:
 - deploy to production or shared environments
 - change shared external state that affects collaborators, users, automation, or notifications
 
+Release assets must contain only installable skill artifacts, as defined in [references/release-gates.md](references/release-gates.md). Repository source archives may exist as GitHub tag snapshots, but the canonical release package must stay skill-only.
+
 See [references/release-gates.md](references/release-gates.md).
 
 ## Repository Structure

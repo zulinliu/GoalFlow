@@ -48,6 +48,23 @@ The gate must be in Chinese when the user is Chinese-speaking.
 
 Preparing PR text, release notes, rollback notes, and local branch state is allowed without this gate. Remote mutation is not.
 
+## Release Artifact Scope
+
+GoalFlow releases must publish only skill artifacts.
+
+Canonical release assets must be installable skill packages and may include only:
+
+- `SKILL.md`
+- `agents/`
+- `assets/`
+- `references/`
+- `scripts/`
+- `LICENSE`
+
+Do not attach repository-management, planning, review, prototype scratch, or governance-only files to a release asset. Excluded examples include `.git/`, `.github/`, `.planning/`, `.impeccable/`, `README*`, `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, root design/brand drafts, temporary review reports, local test output, screenshots not used by the skill, and generated dependency folders.
+
+GitHub may display automatically generated source archives for every tag. Treat those as repository snapshots, not canonical GoalFlow skill packages. The release notes must point users to the attached skill-only package when one is provided.
+
 ## Chinese Gate Templates
 
 Design gate:
@@ -83,7 +100,8 @@ Before asking for the release gate:
 5. `.planning/` and Impeccable artifacts are up to date.
 6. Git status is understood.
 7. Git author is valid.
-8. PR/release notes describe user-visible changes, verification, risks, and rollback notes.
+8. Release assets are skill-only according to the Release Artifact Scope.
+9. PR/release notes describe user-visible changes, verification, risks, rollback notes, and the canonical skill package when applicable.
 
 ## GSD Release Routes
 
