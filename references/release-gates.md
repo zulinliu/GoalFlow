@@ -2,6 +2,16 @@
 
 Read this before PR, merge, tag, release, or deployment work.
 
+## Git And Release Standing Rules
+
+GoalFlow has three standing git/release output rules. Keep these rules together here and follow them for all future work:
+
+1. Release assets must be skill-only packages. See [Release Artifact Scope](#release-artifact-scope).
+2. Release notes must be bilingual in English and Simplified Chinese. See [Bilingual Release Notes](#bilingual-release-notes).
+3. Commit messages must be bilingual in English and Simplified Chinese. See [Bilingual Commit Messages](#bilingual-commit-messages).
+
+The Author Gate below is a separate safety gate: commits and release work still require a specific human git author.
+
 ## Author Gate
 
 Run:
@@ -29,6 +39,8 @@ GoalFlow may autonomously:
 - Run local build/test/verification commands.
 
 Before every autonomous local commit, rerun the author gate and confirm `git status` contains only intended files.
+
+Commit messages must also follow [Bilingual Commit Messages](#bilingual-commit-messages).
 
 ## User Gate Required
 
@@ -83,6 +95,25 @@ Every published release must include:
 - 简体中文回滚说明。
 
 Use English first for GitHub's default open-source audience, then Simplified Chinese. Do not publish a release with English-only or Chinese-only notes unless the user explicitly overrides this rule for a one-off private release and the exception is recorded.
+
+## Bilingual Commit Messages
+
+GoalFlow commit messages must be bilingual in English and Simplified Chinese.
+
+Required format for the subject line:
+
+```text
+<type>: <English summary> / <中文摘要>
+```
+
+Examples:
+
+```text
+docs: require bilingual release notes / 文档：要求发行说明中英双语
+fix: scope environment probe by runtime / 修复：按运行时限定环境检测范围
+```
+
+If a commit body is needed, include English first and then Simplified Chinese. Keep both versions concise and equivalent. Do not use agent, bot, no-reply, service, or generic automation identities as git authors.
 
 ## Chinese Gate Templates
 

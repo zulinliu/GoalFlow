@@ -51,6 +51,8 @@ git var GIT_COMMITTER_IDENT
 
 Also check `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, `GIT_COMMITTER_NAME`, and `GIT_COMMITTER_EMAIL` if they are set.
 
+Commit messages must follow the bilingual English and Simplified Chinese format in [references/release-gates.md](references/release-gates.md).
+
 ## Development Guidelines
 
 - Keep skill behavior aligned with `SKILL.md`.
