@@ -2,6 +2,14 @@
 
 All notable changes to GoalFlow are documented here.
 
+## Unreleased
+
+### Changed
+
+- Updated English and Chinese README installation guidance to prefer GitHub Release skill-only packages.
+- Refreshed English and Chinese README roadmap entries for v0.2.0 and v0.3.0.
+- Added README version-sync requirements to release gates, agent memory, contribution guidance, and the PR template.
+
 ## 0.3.0 - 2026-06-09
 
 ### Added

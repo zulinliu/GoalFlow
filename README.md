@@ -45,7 +45,55 @@ Every gate leaves evidence:
 
 ## Install
 
-Clone GoalFlow into the skills directory used by your agent harness.
+Recommended install: use the canonical skill-only package attached to the latest GitHub Release. The release package excludes repository planning, governance, and design-draft files, so it is the cleanest installable skill artifact.
+
+Set `VERSION` to the release you want to install. The current latest release is `v0.3.0`.
+
+Codex:
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.codex/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+Claude Code:
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.claude/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+Shared agent skills directory:
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.agents/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+Restart the harness after installing or updating the skill, then run the environment probe.
+
+Development install: clone the full repository when you want README files, planning docs, design drafts, issue templates, or contribution history.
 
 Codex:
 
@@ -65,7 +113,7 @@ Shared agent skills directory:
 git clone https://github.com/zulinliu/GoalFlow.git ~/.agents/skills/goalflow
 ```
 
-If your harness uses a different skill directory, clone this repository there as `goalflow`, restart the harness, then run the probe.
+If your harness uses a different skill directory, install or clone into that directory as `goalflow`, restart the harness, then run the probe.
 
 ## Environment Check
 
@@ -179,8 +227,14 @@ See [references/release-gates.md](references/release-gates.md).
 ```text
 .
 ├── SKILL.md
+├── AGENTS.md
+├── CLAUDE.md
 ├── README.md
 ├── README.zh-CN.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── CODE_OF_CONDUCT.md
 ├── PRODUCT.md
 ├── DESIGN.md
 ├── goalflow-design.md
@@ -213,7 +267,9 @@ Release packages use the skill-only whitelist in [references/release-gates.md](r
 ## Roadmap
 
 - v0.1.0: Core GoalFlow skill, environment probe, routing references, release gates, bilingual README, brand system, and lightweight open-source governance.
-- Next: More harness-specific install notes, richer examples, more prototype examples, and compatibility checks for additional agent runtimes.
+- v0.2.0: Canonical `DESIGN.md`, `.planning/` seed, runtime-scoped environment probe, monochrome mark, stronger governance, bilingual release notes, and bilingual commit message rules.
+- v0.3.0: Repository agent memory with `AGENTS.md`, a thin `CLAUDE.md` importer, and stronger context continuity for future Codex and Claude Code iterations.
+- Next: More harness-specific install notes, richer usage examples, prototype examples, automated release-doc freshness checks, and compatibility checks for additional agent runtimes.
 
 ## Contributing
 

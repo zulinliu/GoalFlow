@@ -45,7 +45,55 @@ AI 编程代理可以很快写代码，但完整功能交付并不只是写代�
 
 ## 安装
 
-把 GoalFlow 克隆到当前 agent harness 使用的 skills 目录。
+推荐安装方式：使用 GitHub Release 附带的正式 skill-only 发布包。该发布包不包含仓库规划、治理和设计草稿文件，是最干净的可安装 skill 产物。
+
+请把 `VERSION` 设置为你要安装的发行版本。当前最新发行版是 `v0.3.0`。
+
+Codex：
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.codex/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+Claude Code：
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.claude/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+共享 agent skills 目录：
+
+```bash
+VERSION=v0.3.0
+INSTALL_ROOT="$HOME/.agents/skills"
+tmpdir="$(mktemp -d)"
+mkdir -p "$INSTALL_ROOT"
+curl -fL "https://github.com/zulinliu/GoalFlow/releases/download/${VERSION}/goalflow-${VERSION}-skill.tar.gz" -o "$tmpdir/goalflow.tar.gz"
+tar -xzf "$tmpdir/goalflow.tar.gz" -C "$tmpdir"
+rm -rf "$INSTALL_ROOT/goalflow"
+mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
+rm -rf "$tmpdir"
+```
+
+安装或更新 skill 后，请重启 harness，再执行环境检测。
+
+开发安装方式：如果需要 README、规划文档、设计草稿、issue 模板或贡献历史，请克隆完整仓库。
 
 Codex：
 
@@ -65,7 +113,7 @@ git clone https://github.com/zulinliu/GoalFlow.git ~/.claude/skills/goalflow
 git clone https://github.com/zulinliu/GoalFlow.git ~/.agents/skills/goalflow
 ```
 
-如果你的 harness 使用其他 skills 目录，请把本仓库克隆到对应目录并命名为 `goalflow`，然后重启 harness，再执行环境检测。
+如果你的 harness 使用其他 skills 目录，请把发布包安装到对应目录，或把完整仓库克隆到对应目录并命名为 `goalflow`，然后重启 harness，再执行环境检测。
 
 ## 环境检测
 
@@ -179,8 +227,14 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ```text
 .
 ├── SKILL.md
+├── AGENTS.md
+├── CLAUDE.md
 ├── README.md
 ├── README.zh-CN.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── CODE_OF_CONDUCT.md
 ├── PRODUCT.md
 ├── DESIGN.md
 ├── goalflow-design.md
@@ -197,7 +251,9 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ## 路线图
 
 - v0.1.0：核心 GoalFlow skill、环境检测、路由参考、发布 gate、双语 README、品牌系统和轻量开源治理。
-- 下一阶段：补充更多 harness 安装说明、更完整的使用示例、更多原型示例和更多 agent runtime 兼容性检测。
+- v0.2.0：新增 canonical `DESIGN.md`、`.planning/` 种子、按运行时限定的环境检测、单色 Logo 标记、更强治理规则、中英双语 release notes 和中英双语 commit 规范。
+- v0.3.0：新增 `AGENTS.md` 仓库级 agent 记忆、轻量 `CLAUDE.md` 导入文件，并强化后续 Codex 与 Claude Code 迭代的上下文连续性。
+- 下一阶段：补充更多 harness 安装说明、更完整的使用示例、更多原型示例、自动化发布文档新鲜度检查和更多 agent runtime 兼容性检测。
 
 ## 贡献
 

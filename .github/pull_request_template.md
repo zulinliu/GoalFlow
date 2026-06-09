@@ -7,7 +7,7 @@ Describe what changed and why.
 - [ ] I ran the relevant local checks, or explained why they were not run.
 - [ ] I updated docs for user-visible behavior changes.
 - [ ] I updated `CHANGELOG.md` when appropriate.
-- [ ] I checked both `README.md` and `README.zh-CN.md` when public behavior changed.
+- [ ] I reviewed both `README.md` and `README.zh-CN.md` for this version or change, including install instructions, roadmap/version history, repository structure, usage examples, and safety/release rules. If no README update was needed, I explain why below.
 
 # Agent And Authorship
 
@@ -24,4 +24,4 @@ Describe what changed and why.
 
 # Notes
 
-Add risks, tradeoffs, screenshots, prototype links, or follow-up work.
+Add risks, tradeoffs, screenshots, prototype links, README no-change rationale, or follow-up work.

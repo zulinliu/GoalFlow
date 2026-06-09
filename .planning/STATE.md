@@ -4,11 +4,11 @@ Updated: 2026-06-09
 
 ## Branch
 
-`feat/v0.3.0`
+`docs/readme-release-sync`
 
 ## Current Focus
 
-Add project-level agent context memory files for Codex and Claude so future GoalFlow iterations retain repository conventions, release rules, validation commands, and historical lessons.
+Fix README version drift after v0.3.0 and add a durable release gate so future version iterations review and update README files before PR, tag, or release work.
 
 ## Completed v0.2.0 Hardening
 
@@ -29,6 +29,14 @@ Add project-level agent context memory files for Codex and Claude so future Goal
 ## Release Gate
 
 Do not publish a new release until current-version P0/P1 findings are closed, checks pass, and the user approves remote release actions.
+
+## Post-v0.3.0 README Sync Fix
+
+- README files were missing GitHub Release skill-only package installation guidance.
+- README roadmap entries did not reflect v0.2.0 and v0.3.0.
+- Release gates now require `README.md` and `README.zh-CN.md` review/update for every version iteration.
+- `AGENTS.md` now records README version-sync expectations for future agents.
+- `CONTRIBUTING.md` and `.github/pull_request_template.md` now surface README sync expectations during contribution and review.
 
 ## v0.3.0 Work
 
