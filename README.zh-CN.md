@@ -63,6 +63,8 @@ mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
 rm -rf "$tmpdir"
 ```
 
+Codex 的主推荐安装根仍然是 `~/.codex/skills/goalflow`。但对环境检测来说，Codex 运行时也会接受 `.agents` 中的依赖，因此共享安装不再被当成“外部目录导致失败”的来源。
+
 Claude Code：
 
 ```bash
@@ -149,6 +151,14 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 ```
 
 检测脚本会检查 Node/npm、git 仓库状态、git 作者、Impeccable、GSD core、GSD skills 和常见产物。缺失时请按 [references/environment.md](references/environment.md) 处理。GoalFlow 不会自动安装依赖，除非用户明确要求。
+
+运行时兼容规则如下：
+
+- Codex 默认推荐使用 `~/.codex/skills`，但环境检测会同时接受 `.codex` 和 `.agents` 中的依赖。
+- Claude Code 只接受 `.claude` 中的依赖。
+- `shared` 仍然是显式的 `.agents` 运行时，不是 Claude 的别名。
+
+当使用 `--runtime auto` 时，显式 `--runtime` 仍然优先；安装在 `.claude` 下时继续按 Claude 处理；如果存在 `CODEX_*` 这类 Codex 会话信号，即使 GoalFlow 自己安装在 `.agents/skills/goalflow`，也会优先按 `codex` 处理。
 
 ## 使用
 

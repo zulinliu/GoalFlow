@@ -97,7 +97,7 @@ GitHub source archives are tag snapshots, not canonical GoalFlow skill packages.
 
 ## Environment And Validation
 
-GoalFlow's environment probe is runtime-scoped. A Codex run must not pass only because Claude has Impeccable/GSD installed, and the reverse is also true.
+GoalFlow's environment probe is runtime-scoped. Claude must not pass only because Codex has Impeccable/GSD installed, and the reverse is also true. Codex accepts both `.codex` and `.agents` roots as compatible dependency sources; explicit `shared` remains `.agents`-only.
 
 Run from the target project root:
 
@@ -106,7 +106,7 @@ node scripts/check_env.mjs --runtime claude --project .
 node scripts/check_env.mjs --runtime codex --project .
 ```
 
-Known behavior in this workspace: Claude runtime can pass; Codex runtime may correctly report missing Impeccable while identifying the Claude install as `found elsewhere`.
+Known behavior in this workspace: Codex can pass when Impeccable/GSD is installed in either `.codex` or `.agents`. Claude still requires `.claude`, so `.agents` should appear as `found elsewhere` during a Claude run.
 
 Common validation:
 

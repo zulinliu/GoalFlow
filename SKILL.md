@@ -18,7 +18,7 @@ cd <PROJECT_ROOT>
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 ```
 
-`<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If running from another directory, pass `--project <PROJECT_ROOT>` and `--runtime codex|claude|shared`. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
+`<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If running from another directory, pass `--project <PROJECT_ROOT>` and `--runtime codex|claude|shared`. Codex still recommends `~/.codex/skills/goalflow`, but its environment probe accepts both `.codex` and `.agents` as compatible dependency roots. Claude remains `.claude`-only, and explicit `shared` remains `.agents`-only. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
 
 ## Modes
 

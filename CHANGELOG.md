@@ -2,6 +2,14 @@
 
 All notable changes to GoalFlow are documented here.
 
+## Unreleased
+
+### Changed
+
+- Fixed Codex environment detection so `.agents` is treated as a fully compatible dependency root alongside `.codex`, avoiding false missing-Impeccable/GSD reports.
+- Fixed `--runtime auto` so Codex session signals such as `CODEX_*` prefer `codex` even when GoalFlow itself is installed under `.agents/skills/goalflow`.
+- Tightened probe guidance and docs so Codex no longer suggests copying or syncing dependencies into `.codex` when `.agents` already satisfies the runtime.
+
 ## 0.3.0 - 2026-06-09
 
 ### Added

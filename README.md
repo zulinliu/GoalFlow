@@ -63,6 +63,8 @@ mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
 rm -rf "$tmpdir"
 ```
 
+Codex still recommends `~/.codex/skills/goalflow` as the primary install root. For environment checks, a Codex run also accepts dependencies found in `.agents`, so a shared install is not treated as an external failure source.
+
 Claude Code:
 
 ```bash
@@ -149,6 +151,14 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 ```
 
 The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, and common artifact presence. If anything is missing, follow [references/environment.md](references/environment.md). GoalFlow does not install dependencies automatically unless the user explicitly asks.
+
+Runtime compatibility is intentional:
+
+- Codex recommends `~/.codex/skills`, and its probe accepts dependencies from both `.codex` and `.agents`.
+- Claude Code accepts dependencies only from `.claude`.
+- `shared` remains an explicit `.agents` runtime and is not a Claude alias.
+
+When `--runtime auto` is used, explicit `--runtime` still wins, Claude installs stay Claude-scoped, and a Codex session signal such as `CODEX_*` makes GoalFlow prefer `codex` even if GoalFlow itself is installed under `.agents/skills/goalflow`.
 
 ## Usage
 
