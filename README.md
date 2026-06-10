@@ -48,12 +48,12 @@ Every gate leaves evidence:
 
 Recommended install: use the canonical skill-only package attached to the latest GitHub Release. The release package excludes repository planning, governance, and design-draft files, so it is the cleanest installable skill artifact.
 
-Set `VERSION` to the release you want to install. The current latest release is `v0.3.0`.
+Set `VERSION` to the release you want to install. The current latest release is `v0.4.0`.
 
 Codex:
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.codex/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -69,7 +69,7 @@ Codex still recommends `~/.codex/skills/goalflow` as the primary install root. F
 Claude Code:
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.claude/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -83,7 +83,7 @@ rm -rf "$tmpdir"
 Shared agent skills directory:
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.agents/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -169,6 +169,7 @@ Use these examples in the agent chat or skill invocation surface, not in a termi
 $goalflow build a team invitation feature
 $goalflow --auto build an order filtering feature
 $goalflow --brand build a new product homepage
+$goalflow --multi-prototype build a responsive dashboard
 ```
 
 Chinese examples and review gates are documented in [README.zh-CN.md](README.zh-CN.md).

@@ -4,7 +4,15 @@ All notable changes to GoalFlow are documented here.
 
 ## Unreleased
 
-<!-- Target: v0.4.0 -->
+<!-- Target: v0.4.1 -->
+
+### Changed
+
+- SKILL.md description and body restructured with Chinese-first content for primary Chinese-speaking users.
+- SKILL.md parameter table added with bilingual descriptions, auto-displayed when skill is invoked.
+- README install instructions updated from v0.3.0 to v0.4.0 (latest release).
+
+## [v0.4.0] - 2026-06-10
 
 ### Added
 
