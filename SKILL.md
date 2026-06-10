@@ -1,25 +1,45 @@
 ---
 name: goalflow
 description: >
-  Use when the user wants to build a complete feature from a high-level goal — design, HTML
-  prototype, implementation, verification, documentation, PR, and release — or explicitly invokes
-  $goalflow. Use when the user says "build a feature end to end", "from design to release",
-  "prototype then implement", "ship a feature with design review, tests, and a PR",
-  "做一个 XX 功能", "从设计到发布", or wants end-to-end feature delivery orchestration.
-  Routes each step through Impeccable (UX/UI/prototype flow) and Taste-Skill (visual quality/style)
-  and GSD (requirements/execution/release).
-  Supports --auto autonomous mode, --brand identity work, Chinese and English, and Codex/Claude
-  runtimes. Do not use for isolated edits, single-skill polish, code review, or backend-only work
-  unless the user asks for GoalFlow-level orchestration.
+  输入一个功能目标，从体验设计、HTML 原型、实现、验证、文档到发布准备，一次性完成全流程交付。
+  当用户说"做一个 XX 功能"、"从设计到发布"、"帮我实现一个功能"、"build a feature end to end"、
+  "from design to release"、"prototype then implement"，或明确调用 $goalflow 时触发。
+  Impeccable 负责前端流程（UX/UI/原型），Taste-Skill 负责视觉质量（设计风格/保真度），
+  GSD 负责工程流程（需求/执行/发布）。支持 --auto 自主模式、--brand 品牌文化建设、
+  --multi-prototype 独立多设备原型，支持中英文和 Codex/Claude 运行时。
+  不适用于独立编辑、单项打磨、代码审查或纯后端工作（除非用户明确要求 GoalFlow 级别编排）。
+  Use when the user wants end-to-end feature delivery from a high-level goal — design, prototype,
+  implementation, verification, documentation, and release — or explicitly invokes $goalflow.
 metadata:
-  short-description: Turn one feature goal into a release-ready delivery
+  short-description: 输入一个功能目标，完成从设计到发布的全流程交付 / Turn one feature goal into a release-ready delivery
 ---
 
 # GoalFlow
 
+一句话：输入 `$goalflow 做一个 XXX 功能`，GoalFlow 会先做体验设计和高保真 HTML 原型，再推进实现、验证、文档和发布准备。
+
 GoalFlow turns one feature goal into a designed, prototyped, implemented, verified, documented, and release-ready delivery flow.
 
-一句话：输入 `$goalflow 做一个 XXX 功能`，GoalFlow 会先做体验设计和 HTML 原型，再推进实现、验证、文档和发布准备。
+## 参数说明 Parameters
+
+当用户调用 `$goalflow` 或 `/goalflow` 时，主动提示以下可选参数：
+
+| 参数 | 说明 | Description |
+|------|------|-------------|
+| `--auto` | 跳过常规确认，自主推进。仍会执行设计质量评审，不跳过 blocker、破坏性操作、凭据决策和发布 gate。 | Skip routine confirmations. Still runs design review; never skips blockers, destructive actions, credentials, or release gates. |
+| `--brand` | 完整品牌文化建设：命名、品牌叙事、Logo 方向、slogan、页面/icon 命名、文档语言统一。 | Full brand culture: naming, narrative, logo direction, slogan, page/icon naming, docs consistency. |
+| `--multi-prototype` | 分别产出桌面端（键盘/鼠标）和移动端（触控）的独立 HTML 原型，而非单一响应式原型。当桌面和移动端交互模型差异显著时推荐使用。 | Produce separate desktop and mobile prototypes instead of one responsive prototype. Recommended when interaction models differ significantly. |
+
+不传参数时，GoalFlow 会先做需求澄清、设计和原型，等待设计确认后再推进工程执行。
+
+不带参数的常见调用方式：
+
+```text
+$goalflow 做一个团队成员邀请功能
+$goalflow --auto 做一个订单筛选功能
+$goalflow --brand 做一个新产品首页
+$goalflow --multi-prototype 做一个响应式仪表盘
+```
 
 ## First Action
 
@@ -32,25 +52,7 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 
 `<GOALFLOW_SKILL_DIR>` is the directory containing this `SKILL.md`. Common installs are `~/.codex/skills/goalflow`, `~/.claude/skills/goalflow`, or `~/.agents/skills/goalflow`. If running from another directory, pass `--project <PROJECT_ROOT>` and `--runtime codex|claude|shared`. Codex still recommends `~/.codex/skills/goalflow`, but its environment probe accepts both `.codex` and `.agents` as compatible dependency roots. Claude remains `.claude`-only, and explicit `shared` remains `.agents`-only. If the probe reports missing Impeccable, missing GSD, no git repository, or an invalid git author, stop and follow [environment.md](references/environment.md). Do not install dependencies automatically unless the user explicitly asks.
 
-## Modes
-
-Parse only these flags:
-
-- `--auto`: Skip clarification and design/product user confirmations, but do not skip autonomous design review, blockers, destructive actions, credential decisions, external-state changes, or release gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
-- `--brand`: Run the full feature brand culture path: naming, narrative, logo direction, slogan, icon/page naming, README and docs language.
-- `--multi-prototype`: Produce separate HTML prototypes for desktop (keyboard/mouse optimized) and mobile (touch optimized) instead of a single responsive prototype. Use this when the user explicitly asks for distinct device-specific prototypes or when the interaction models differ significantly between device classes.
-
-No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md).
-
-Common Chinese invocations:
-
-```text
-$goalflow 做一个团队成员邀请功能
-$goalflow --auto 做一个订单筛选功能
-$goalflow --brand 做一个新产品首页
-```
-
-Follow-up intents can be natural Chinese, for example "继续推进", "重新设计", "评审", "修复", "下一步做什么", or "准备发布".
+No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md). Follow-up intents can be natural Chinese, for example "继续推进", "重新设计", "评审", "修复", "下一步做什么", or "准备发布".
 
 ## Core Rules
 

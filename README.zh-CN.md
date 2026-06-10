@@ -48,12 +48,12 @@ AI 编程代理可以很快写代码，但完整功能交付并不只是写代�
 
 推荐安装方式：使用 GitHub Release 附带的正式 skill-only 发布包。该发布包不包含仓库规划、治理和设计草稿文件，是最干净的可安装 skill 产物。
 
-请把 `VERSION` 设置为你要安装的发行版本。当前最新发行版是 `v0.3.0`。
+请把 `VERSION` 设置为你要安装的发行版本。当前最新发行版是 `v0.4.0`。
 
 Codex：
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.codex/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -69,7 +69,7 @@ Codex 的主推荐安装根仍然是 `~/.codex/skills/goalflow`。但对环境�
 Claude Code：
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.claude/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -83,7 +83,7 @@ rm -rf "$tmpdir"
 共享 agent skills 目录：
 
 ```bash
-VERSION=v0.3.0
+VERSION=v0.4.0
 INSTALL_ROOT="$HOME/.agents/skills"
 tmpdir="$(mktemp -d)"
 mkdir -p "$INSTALL_ROOT"
@@ -169,6 +169,7 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 $goalflow 做一个团队成员邀请功能
 $goalflow --auto 做一个订单筛选功能
 $goalflow --brand 做一个新产品首页
+$goalflow --multi-prototype 做一个响应式仪表盘
 ```
 
 常见中文意图也会被路由，例如：`继续推进`、`重新设计`、`评审`、`修复`、`下一步做什么`、`准备发布`。
