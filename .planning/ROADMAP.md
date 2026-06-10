@@ -34,7 +34,13 @@ Status: released on 2026-06-09.
 
 Status: active.
 
+- Integrate Taste-Skill as visual quality authority alongside Impeccable (frontend flow authority).
+- Add high-fidelity prototype requirements: complete UI, interaction loops, purposeful motion, responsive adaptation for desktop and mobile.
+- Add `--multi-prototype` mode for separate desktop/mobile HTML prototypes.
+- Add Frontend Skill Selection Matrix in routing.md for scenario-aware skill combination.
+- Add Taste-Skill detection in environment probe (non-blocking, warn/info status).
+- Remove gsd-sketch from all skill references; frontend prototype creation uses Impeccable and Taste-Skill.
+- Remove `.planning/sketches/` references from documentation.
 - Fix Codex environment detection so `.agents` is treated as a fully compatible dependency root alongside `.codex`.
 - Fix `--runtime auto` Codex session signal resolution.
 - Tighten probe guidance so Codex no longer suggests redundant dependency copying.
-- Refresh `.planning/` state files to match current milestone and branch.

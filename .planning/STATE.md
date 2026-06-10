@@ -8,7 +8,7 @@ Updated: 2026-06-10
 
 ## Current Focus
 
-Fix Codex environment probe compatibility: `.agents` as fully compatible root, `--runtime auto` Codex session signal resolution, and probe guidance cleanup. Refresh `.planning/` state files.
+v0.4.0 Frontend design capability optimization: Taste-Skill integration as visual quality authority, high-fidelity prototype requirements, gsd-sketch removal, `--multi-prototype` mode, Frontend Skill Selection Matrix, and Codex environment probe compatibility fixes.
 
 ## Completed v0.2.0 Hardening
 

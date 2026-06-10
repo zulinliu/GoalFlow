@@ -32,11 +32,17 @@ In `--auto`, skip clarification and confirmation gates by writing assumptions, e
 Frontend experience is the source of truth. Use Impeccable before backend/API design:
 
 1. Shape UX/UI, interaction model, motion, states, responsive behavior, and brand direction.
-2. Produce an interactive HTML prototype for meaningful features.
-3. Inspect the prototype visually and interactively.
-4. Only then let GSD derive API, data model, backend, and task plans from the prototype.
+2. Produce a high-fidelity interactive HTML prototype for meaningful features — it must include complete UI, interaction loops, purposeful motion, and responsive adaptation for both desktop keyboard/mouse and mobile touch scenarios.
+3. Use Taste-Skill capabilities to enhance prototype visual quality based on the scenario. Consult the Frontend Skill Selection Matrix in [routing.md](routing.md) to choose the right Taste-Skill combination (e.g., `taste-design-taste-frontend` for triple-layer motion, `taste-high-end-visual-design` for agency-grade quality, `taste-full-output-enforcement` to prevent code truncation).
+4. Inspect the prototype visually and interactively.
+5. Only then let GSD derive API, data model, backend, and task plans from the prototype.
 
-The prototype must include realistic content, hover/focus/active/loading/error/success states, key transitions, responsive behavior, and reduced-motion alternatives where applicable. Commit the prototype to git.
+The prototype must include realistic content, hover/focus/active/loading/error/success states, key transitions, responsive behavior for desktop and mobile viewports, purposeful motion with reduced-motion alternatives, and touch-friendly targets (minimum 44px) for mobile. Commit the prototype to git.
+
+Multi-device prototype mode:
+
+- Default: produce a single responsive HTML prototype that adapts to both desktop (keyboard/mouse) and mobile (touch) viewports using CSS breakpoints, Container Queries, pointer/hover media queries, and touch-friendly sizing.
+- `--multi-prototype`: produce separate HTML prototypes — one optimized for desktop keyboard/mouse interaction, one optimized for mobile touch interaction. Use this when the user explicitly asks for distinct device-specific prototypes or when the interaction models differ significantly between device classes.
 
 Prototype threshold:
 
@@ -55,7 +61,7 @@ Before implementation, run a design review:
 - Normal mode: present the design and prototype to the user in the user's language and wait for confirmation.
 - `--auto`: skip user confirmation, but spawn autonomous review subagents when available, synthesize findings, apply at least one iteration, then continue.
 
-Use Impeccable as the visual authority. GSD sketch can be used for variant archiving and `.planning/sketches/` management, but it does not replace Impeccable for aesthetics, interaction quality, or frontend craft.
+Use Impeccable and Taste-Skill as the frontend quality authorities. Impeccable `critique`/`audit` evaluates structure, interaction, and anti-patterns. Taste-Skill visual standards evaluate fidelity, motion quality, and design style consistency. All HTML prototype creation and frontend visual quality control should use Impeccable and Taste-Skill professional capabilities.
 
 Record the design gate:
 
@@ -86,7 +92,7 @@ For large features, prefer:
 
 Execute in phases. Keep Impeccable and GSD both active:
 
-- Impeccable gates frontend code, visual quality, UX copy, interaction, motion, accessibility, responsive behavior, and anti-pattern detection.
+- Impeccable gates frontend code, visual quality, UX copy, interaction, motion, accessibility, responsive behavior, and anti-pattern detection. Taste-Skill provides additional visual quality gates for design style, prototype fidelity, and motion quality.
 - GSD gates task order, implementation, tests, docs, git state, verification, UAT, and continuity.
 
 Commit meaningful artifacts and implementation changes according to the host project's git conventions and GSD commit rules.

@@ -209,6 +209,12 @@ const gsdSkillHits = toDisplayHits(runtimeProbe.gsdSkills.compatible.hits);
 const gsdSkillNames = new Set(runtimeProbe.gsdSkills.compatible.uniqueNames);
 const missingRequiredGsdSkills = runtimeProbe.gsdSkills.compatible.missingRequired;
 const gsdToolsPath = firstExisting(runtimeProbe.compatibleRoots.map((root) => root.gsdToolsPath));
+
+const tasteSkillHits = toDisplayHits(runtimeProbe.tasteSkills.compatible.hits);
+const tasteSkillNames = new Set(runtimeProbe.tasteSkills.compatible.uniqueNames);
+const missingRequiredTasteSkills = runtimeProbe.tasteSkills.compatible.missingRequired;
+const missingRecommendedTasteSkills = runtimeProbe.tasteSkills.compatible.missingRecommended;
+const otherTasteHit = toDisplayHit(runtimeProbe.tasteSkills.incompatible.primaryHit);
 let gsdTools = null;
 const pathGsdTools = commandVersion('gsd-tools', ['--version']);
 if (gsdToolsPath) {
@@ -340,6 +346,37 @@ const checks = [
     fix: formatGsdSkillsFix(runtimeProbe.targetRuntime),
   },
   {
+    id: 'taste-core',
+    label: 'Taste-Skill',
+    status: tasteSkillNames.size > 0 ? 'ok' : 'warn',
+    detail: tasteSkillNames.size > 0
+      ? `${tasteSkillNames.size} Taste-Skill skills found across ${runtimeProbe.tasteSkills.compatible.rootCategories.join(', ') || 'compatible roots'}`
+      : formatDependencyDetail(null, otherTasteHit, runtimeProbe.targetRuntime),
+    fix: 'Taste-Skill is optional but recommended for high-fidelity prototype visual quality. Install with `npx skills add Leonxlnx/taste-skill`, then restart the harness.',
+  },
+  {
+    id: 'taste-required',
+    label: 'Taste-Skill core skills',
+    status: !tasteSkillNames.size ? 'info' : (missingRequiredTasteSkills.length ? 'warn' : 'ok'),
+    detail: !tasteSkillNames.size
+      ? 'skipped because Taste-Skill is not installed'
+      : (missingRequiredTasteSkills.length
+        ? `missing core skills: ${missingRequiredTasteSkills.join(', ')}`
+        : 'all core Taste-Skill skills present'),
+    fix: 'Reinstall or update Taste-Skill to get the latest core skills.',
+  },
+  {
+    id: 'taste-recommended',
+    label: 'Taste-Skill style skills',
+    status: !tasteSkillNames.size ? 'info' : (missingRecommendedTasteSkills.length ? 'info' : 'ok'),
+    detail: !tasteSkillNames.size
+      ? 'skipped because Taste-Skill is not installed'
+      : (missingRecommendedTasteSkills.length
+        ? `optional style skills not installed: ${missingRecommendedTasteSkills.join(', ')}`
+        : 'all recommended Taste-Skill skills present'),
+    fix: 'Style-specific Taste-Skill skills are optional. Install them when needed for specific visual styles.',
+  },
+  {
     id: 'product-md',
     label: 'PRODUCT.md',
     status: !activeProjectRoot ? 'info' : (productPath ? 'ok' : 'warn'),
@@ -421,6 +458,12 @@ const result = {
     missingRequiredGsdSkills,
     gsdTools,
     pathGsdTools,
+    tasteSkillCount: tasteSkillNames.size,
+    tasteSkillRootCategories: runtimeProbe.tasteSkills.compatible.rootCategories,
+    tasteSkillHits,
+    missingRequiredTasteSkills,
+    missingRecommendedTasteSkills,
+    otherTasteSkill: otherTasteHit,
     hasCode,
     environmentDoc,
   },

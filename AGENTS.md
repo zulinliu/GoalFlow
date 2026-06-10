@@ -8,7 +8,8 @@ GoalFlow is not a shell CLI or application runtime. It is an AI coding-agent ski
 
 Core promise:
 
-- Impeccable leads UX, UI, interaction, motion, brand direction, frontend craft, and interactive HTML prototypes.
+- Impeccable leads UX, UI, interaction, motion, brand direction, frontend craft, and interactive HTML prototypes. It is the frontend flow authority.
+- Taste-Skill provides visual quality authority — design style direction, high-fidelity prototype enhancement, and aesthetic standards. All frontend design and HTML prototype creation should use Impeccable and Taste-Skill professional capabilities.
 - GSD leads requirements, planning, backend/API design, execution, verification, documentation, git hygiene, PR preparation, and release gates.
 - GoalFlow routes each step to the right capability while preserving durable artifacts and explicit publication boundaries.
 
@@ -20,7 +21,7 @@ Read the smallest relevant file before editing:
 
 - `SKILL.md`: primary skill contract and progressive-disclosure entrypoint.
 - `references/workflow.md`: end-to-end GoalFlow delivery process.
-- `references/routing.md`: when to route to Impeccable vs GSD.
+- `references/routing.md`: when to route to Impeccable, Taste-Skill, or GSD.
 - `references/artifacts.md`: canonical Impeccable/GSD artifact locations.
 - `references/environment.md`: install and runtime-specific environment probe guidance.
 - `references/harnesses.md`: Codex, Claude, and fallback harness behavior.
@@ -44,6 +45,7 @@ Do not duplicate long instructions across files. Put stable process detail in `r
 - `v0.1.0`: initial skill, workflow references, environment probe, release gates, bilingual README, brand assets, governance.
 - `v0.2.0`: `DESIGN.md`, `.planning/` seed, scoped env probe, mono mark, stronger governance, bilingual release notes and commits.
 - `v0.3.0`: agent context memory files for Codex and Claude.
+- `v0.4.0`: Taste-Skill visual quality authority integration, high-fidelity prototype requirements, gsd-sketch removal, multi-prototype mode.
 - Post-`v0.3.0` docs fix: README release-install guidance, roadmap freshness, and README version-sync gate.
 
 Before starting work:
@@ -142,9 +144,9 @@ For release-packaging changes, also run the skill-only archive check above.
 
 ## GoalFlow Workflow Memory
 
-For meaningful feature work, do not jump straight to implementation. Probe environment and author, clarify or record `--auto` assumptions, use Impeccable first for UX/UI/motion/brand and an interactive HTML prototype, then use GSD for requirements, API/backend boundaries, phases, validation, docs, git, PR, and release flow. Run parallel review where possible, fix P0/P1 findings, and stop at remote release gates unless already approved.
+For meaningful feature work, do not jump straight to implementation. Probe environment and author, clarify or record `--auto` assumptions, use Impeccable and Taste-Skill first for UX/UI/motion/brand and an interactive HTML prototype, then use GSD for requirements, API/backend boundaries, phases, validation, docs, git, PR, and release flow. Run parallel review where possible, fix P0/P1 findings, and stop at remote release gates unless already approved.
 
-Prototype rule: required for meaningful user-facing features. Skip only for backend-only, docs-only, copy-only, migration, or small config/admin changes with no new interaction; record the skip reason.
+Prototype rule: required for meaningful user-facing features. Prototypes must be high-fidelity: complete UI, interaction loops, purposeful motion, responsive adaptation for both desktop keyboard/mouse and mobile touch. Skip only for backend-only, docs-only, copy-only, migration, or small config/admin changes with no new interaction; record the skip reason.
 
 ## Subagents And Review
 
@@ -162,7 +164,7 @@ Do not pass subagents the expected answer when the goal is independent validatio
 
 ## Common Failure Modes To Avoid
 
-- Treating `$goalflow ...`, `$impeccable ...`, or `$gsd-...` as terminal commands. They are agent skill invocations unless a skill explicitly provides shell commands.
+- Treating `$goalflow ...`, `$impeccable ...`, `$taste-...`, or `$gsd-...` as terminal commands. They are agent skill invocations unless a skill explicitly provides shell commands.
 - Letting `--auto` skip design review, blockers, credentials, destructive actions, external-state changes, or release gates.
 - Confusing GitHub tag source archives with canonical skill release packages.
 - Allowing another runtime's Impeccable/GSD install to satisfy the current runtime check.

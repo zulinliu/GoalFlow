@@ -38,8 +38,21 @@ export const REQUIRED_GSD_SKILLS = [
   'gsd-pr-branch',
   'gsd-complete-milestone',
   'gsd-audit-milestone',
-  'gsd-sketch',
   'gsd-progress',
+];
+
+export const REQUIRED_TASTE_SKILLS = [
+  'taste-design-taste-frontend',
+  'taste-full-output-enforcement',
+];
+
+export const RECOMMENDED_TASTE_SKILLS = [
+  'taste-redesign-existing-projects',
+  'taste-high-end-visual-design',
+  'taste-minimalist-ui',
+  'taste-industrial-brutalist-ui',
+  'taste-gpt-taste',
+  'taste-brandkit',
 ];
 
 function createRootCandidate(prefix, scope, rootCategory) {
@@ -113,6 +126,27 @@ function inspectGsdSkills(candidates, listDirs) {
     rootCategories,
     primaryHit: hits[0] || null,
     missingRequired,
+  };
+}
+
+function inspectTasteSkills(candidates, listDirs) {
+  const hits = candidates.flatMap((candidate) => (
+    listDirs(candidate.skillRoot, 'taste-').map((candidatePath) => ({
+      ...withCandidatePath(candidate, candidatePath),
+      name: path.basename(candidatePath),
+    }))
+  ));
+  const uniqueNames = [...new Set(hits.map((hit) => hit.name))];
+  const rootCategories = [...new Set(hits.map((hit) => hit.rootCategory))];
+  const missingRequired = REQUIRED_TASTE_SKILLS.filter((name) => !uniqueNames.includes(name));
+  const missingRecommended = RECOMMENDED_TASTE_SKILLS.filter((name) => !uniqueNames.includes(name));
+  return {
+    hits,
+    uniqueNames,
+    rootCategories,
+    primaryHit: hits[0] || null,
+    missingRequired,
+    missingRecommended,
   };
 }
 
@@ -193,6 +227,10 @@ export function evaluateRuntimeDependencies({
     compatible: inspectGsdSkills(compatibleRoots, listDirs),
     incompatible: inspectGsdSkills(incompatibleRoots, listDirs),
   };
+  const tasteSkills = {
+    compatible: inspectTasteSkills(compatibleRoots, listDirs),
+    incompatible: inspectTasteSkills(incompatibleRoots, listDirs),
+  };
 
   return {
     ...runtimeSelection,
@@ -203,5 +241,6 @@ export function evaluateRuntimeDependencies({
     impeccable,
     gsdCore,
     gsdSkills,
+    tasteSkills,
   };
 }

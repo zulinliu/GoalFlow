@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>One goal. Full delivery.</strong><br>
-  Impeccable-led design and prototype, GSD-led engineering, verification, durable artifacts, and release gates.
+  Impeccable and Taste-Skill-led design and prototype, GSD-led engineering, verification, durable artifacts, and release gates.
 </p>
 
 <p align="center">
@@ -21,7 +21,8 @@ GoalFlow is not a shell CLI or application runtime. `$goalflow ...` examples are
 
 AI coding agents can move quickly, but feature work often loses quality when design, planning, implementation, validation, documentation, and release safety are handled as separate conversations. GoalFlow keeps the full path in one opinionated workflow:
 
-- Impeccable leads UX, UI, interaction, motion, brand direction, frontend craft, and interactive HTML prototypes.
+- Impeccable leads UX, UI, interaction, motion, brand direction, frontend craft, and interactive HTML prototypes. It is the frontend flow authority.
+- Taste-Skill provides visual quality authority — design style direction, high-fidelity prototype enhancement, and aesthetic standards.
 - GSD leads requirements, planning, backend/API design, execution, verification, documentation, git hygiene, PR preparation, and release gates.
 - GoalFlow routes each phase to the right specialist, records durable artifacts, and keeps release work behind explicit safety gates.
 
@@ -35,8 +36,8 @@ Every gate leaves evidence:
 
 - Probe: environment, runtime scope, project root, git repository, and real-person git author.
 - Clarify: user-reviewed intent, or recorded assumptions in `--auto`.
-- Design: Impeccable-led UX, visual system, interaction model, motion, and brand direction.
-- Prototype: interactive HTML prototype for meaningful user-facing work.
+- Design: Impeccable-led UX, visual system, interaction model, motion, brand direction, and Taste-Skill-enhanced visual quality.
+- Prototype: interactive HTML prototype for meaningful user-facing work. High-fidelity: complete UI, interaction loops, purposeful motion, responsive adaptation for desktop and mobile.
 - Review: user design confirmation, or autonomous subagent review plus at least one iteration in `--auto`.
 - Plan: GSD requirements, backend/API boundaries, phase plans, validation, and UAT.
 - Build: phased implementation with Impeccable and GSD quality gates.
@@ -150,7 +151,7 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime shared
 ```
 
-The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, and common artifact presence. If anything is missing, follow [references/environment.md](references/environment.md). GoalFlow does not install dependencies automatically unless the user explicitly asks.
+The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, Taste-Skill, and common artifact presence. If anything is missing, follow [references/environment.md](references/environment.md). GoalFlow does not install dependencies automatically unless the user explicitly asks.
 
 Runtime compatibility is intentional:
 
@@ -179,10 +180,11 @@ Chinese examples and review gates are documented in [README.zh-CN.md](README.zh-
 | `$goalflow <goal>` | You want normal design discussion before implementation. | GoalFlow asks concise clarification questions, produces design/prototype artifacts, waits for design confirmation, then executes. |
 | `$goalflow --auto <goal>` | You want autonomous progress without routine confirmations. | GoalFlow records assumptions and skips routine clarification plus design/product user confirmations; it still runs autonomous design review, applies at least one iteration or records no material issue, and never skips blockers, destructive actions, credential decisions, external-state changes, or release gates. |
 | `$goalflow --brand <goal>` | The feature needs public identity work. | GoalFlow runs naming, narrative, logo direction, slogan, page/icon naming, README language, and documentation consistency work. |
+| `$goalflow --multi-prototype <goal>` | Desktop and mobile need distinct prototypes. | GoalFlow produces separate HTML prototypes for desktop (keyboard/mouse) and mobile (touch) instead of a single responsive prototype. |
 
 ## Prototype Rule
 
-Interactive HTML prototypes are mandatory for meaningful features: new or changed user flows, visible UI, complex states, brand or landing work, onboarding, settings, dashboards, forms, and interaction-heavy surfaces.
+Interactive HTML prototypes are mandatory for meaningful features: new or changed user flows, visible UI, complex states, brand or landing work, onboarding, settings, dashboards, forms, and interaction-heavy surfaces. Prototypes must be high-fidelity: complete UI, interaction loops, purposeful motion, responsive adaptation for both desktop keyboard/mouse and mobile touch.
 
 Prototype skips are allowed only for backend-only, docs-only, copy-only, migration, or small config/admin changes with no new interaction. The skip reason must be recorded.
 
@@ -208,7 +210,6 @@ GSD artifacts:
 - `.planning/STATE.md`
 - `.planning/research/`
 - `.planning/phases/`
-- `.planning/sketches/`
 - `.planning/debug/`
 - `.planning/intel/`
 
@@ -281,6 +282,7 @@ Release packages use the skill-only whitelist in [references/release-gates.md](r
 - v0.1.0: Core GoalFlow skill, environment probe, routing references, release gates, bilingual README, brand system, and lightweight open-source governance.
 - v0.2.0: Canonical `DESIGN.md`, `.planning/` seed, runtime-scoped environment probe, monochrome mark, stronger governance, bilingual release notes, and bilingual commit message rules.
 - v0.3.0: Repository agent memory with `AGENTS.md`, a thin `CLAUDE.md` importer, and stronger context continuity for future Codex and Claude Code iterations.
+- v0.4.0: Taste-Skill visual quality authority integration, high-fidelity prototype requirements, gsd-sketch removal, `--multi-prototype` mode, and Frontend Skill Selection Matrix.
 - Next: More harness-specific install notes, richer usage examples, prototype examples, automated release-doc freshness checks, and compatibility checks for additional agent runtimes.
 
 ## Contributing

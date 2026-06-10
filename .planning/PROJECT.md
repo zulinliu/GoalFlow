@@ -4,11 +4,12 @@ GoalFlow is an AI coding-agent skill that turns one high-level feature goal into
 
 ## Current Milestone
 
-v0.4.0 Codex environment probe compatibility fixes.
+v0.4.0 Frontend design capability optimization: Taste-Skill integration as visual quality authority, high-fidelity prototype requirements, gsd-sketch removal.
 
 ## Product Goals
 
-- Preserve Impeccable as the authority for UX, UI, interaction, motion, brand direction, frontend craft, and interactive HTML prototypes.
+- Preserve Impeccable as the frontend flow authority — it decides when to shape, craft, review, and adapt.
+- Preserve Taste-Skill as the visual quality authority — it decides design style standards and elevates prototype fidelity.
 - Preserve GSD as the authority for requirements, planning, backend/API design, execution, validation, documentation, git, PR, and release workflow.
 - Keep GoalFlow concise enough to load as a skill while storing detailed workflow guidance in `references/`.
 - Support Codex and Claude first, with clear fallback behavior for other harnesses.

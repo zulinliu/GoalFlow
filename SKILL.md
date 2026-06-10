@@ -6,7 +6,8 @@ description: >
   $goalflow. Use when the user says "build a feature end to end", "from design to release",
   "prototype then implement", "ship a feature with design review, tests, and a PR",
   "做一个 XX 功能", "从设计到发布", or wants end-to-end feature delivery orchestration.
-  Routes each step through Impeccable (UX/UI/prototype) and GSD (requirements/execution/release).
+  Routes each step through Impeccable (UX/UI/prototype flow) and Taste-Skill (visual quality/style)
+  and GSD (requirements/execution/release).
   Supports --auto autonomous mode, --brand identity work, Chinese and English, and Codex/Claude
   runtimes. Do not use for isolated edits, single-skill polish, code review, or backend-only work
   unless the user asks for GoalFlow-level orchestration.
@@ -37,6 +38,7 @@ Parse only these flags:
 
 - `--auto`: Skip clarification and design/product user confirmations, but do not skip autonomous design review, blockers, destructive actions, credential decisions, external-state changes, or release gates. Run autonomous design review with subagents when available, iterate at least once, then continue.
 - `--brand`: Run the full feature brand culture path: naming, narrative, logo direction, slogan, icon/page naming, README and docs language.
+- `--multi-prototype`: Produce separate HTML prototypes for desktop (keyboard/mouse optimized) and mobile (touch optimized) instead of a single responsive prototype. Use this when the user explicitly asks for distinct device-specific prototypes or when the interaction models differ significantly between device classes.
 
 No other flags are part of GoalFlow. Route Chinese natural-language intents such as "继续推进", "重新设计", "评审", "修复", "下一步", and "准备发布" through [routing.md](references/routing.md).
 
@@ -52,9 +54,9 @@ Follow-up intents can be natural Chinese, for example "继续推进", "重新设
 
 ## Core Rules
 
-1. Put frontend experience first. Use Impeccable to shape UX, UI, interaction, motion, visual system, and an interactive HTML prototype before backend/API contracts are finalized.
-2. Make prototypes mandatory for meaningful features: new or changed user flows, visible UI, complex state, brand/landing work, or any interaction-heavy surface. Backend-only, docs-only, copy-only, or small config/admin changes with no new interaction may skip the prototype with the reason recorded. The prototype must include realistic content, interaction loops, motion, responsive behavior, and key states. Commit the prototype to git.
-3. Use Impeccable as the highest authority for visual and frontend quality. Use GSD as the highest authority for engineering workflow, documentation, verification, git, PR, and release flow.
+1. Put frontend experience first. Use Impeccable to shape UX, UI, interaction, motion, visual system, and an interactive HTML prototype before backend/API contracts are finalized. Use Taste-Skill to elevate visual quality, apply design style direction, and enhance prototype fidelity. Consult [routing.md](references/routing.md) Frontend Skill Selection Matrix to choose the right skill combination for the scenario.
+2. Make prototypes mandatory for meaningful features: new or changed user flows, visible UI, complex state, brand/landing work, or any interaction-heavy surface. Backend-only, docs-only, copy-only, or small config/admin changes with no new interaction may skip the prototype with the reason recorded. The prototype must be high-fidelity: include realistic content, complete interaction loops, purposeful motion, responsive adaptation for both desktop keyboard/mouse and mobile touch scenarios, and all key states. Commit the prototype to git.
+3. Impeccable is the frontend flow authority — it decides when to shape, craft, review, and adapt. Taste-Skill is the visual quality authority — it decides the design style standard and elevates prototype fidelity. GSD is the engineering workflow authority — it handles requirements, planning, execution, verification, documentation, git, PR, and release. All frontend design, HTML prototype creation, and frontend quality control should use Impeccable and Taste-Skill professional capabilities.
 4. Preserve native artifact locations. Do not invent a GoalFlow artifact directory. See [artifacts.md](references/artifacts.md).
 5. Use the user's language for user-reviewed artifacts and gates; use Chinese when the user is Chinese-speaking or asks for Chinese. Use English for agent-only plans, subagent prompts, and internal execution notes.
 6. Parallelize independent research, review, and audit work with subagents whenever the harness supports it. Fall back inline only when tooling is unavailable or unsafe.
@@ -67,8 +69,8 @@ Follow [workflow.md](references/workflow.md) end to end:
 1. Environment and dependency probe.
 2. Project context initialization.
 3. Goal clarification or autonomous assumption log.
-4. Impeccable-led UX, brand, frontend direction, and interactive HTML prototype.
-5. Autonomous design review and prototype iteration.
+4. Impeccable-led UX, brand, frontend direction, and Taste-Skill-enhanced high-fidelity interactive HTML prototype with multi-device adaptation.
+5. Autonomous design review (Impeccable critique/audit + Taste-Skill visual standards) and prototype iteration.
 6. GSD-led requirements, phases, backend/API design, validation, and execution planning.
 7. Implementation with continuous Impeccable/GSD quality gates.
 8. Parallel final review and repair loop.
