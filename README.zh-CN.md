@@ -4,7 +4,7 @@
 
 <p align="center">
   <strong>一句目标，完整交付。</strong><br>
-  Impeccable 主导设计和原型，GSD 主导工程、验证、持久产物和发布 gate。
+  Impeccable 和 Taste-Skill 主导设计和原型，GSD 主导工程、验证、持久产物和发布 gate。
 </p>
 
 <p align="center">
@@ -21,7 +21,8 @@ GoalFlow 不是 shell CLI，也不是应用运行时。`$goalflow ...` 示例是
 
 AI 编程代理可以很快写代码，但完整功能交付并不只是写代码。高质量交付还需要需求澄清、体验设计、交互原型、工程拆解、实现验证、文档更新、git 管理、PR 准备和发布安全 gate。GoalFlow 把这些环节组织成一个有明确分工的工作流：
 
-- Impeccable 负责 UX、UI、交互、动效、品牌方向、前端效果和交互 HTML 原型。
+- Impeccable 负责 UX、UI、交互、动效、品牌方向、前端效果和交互 HTML 原型。它是前端流程权威。
+- Taste-Skill 提供视觉质量权威——设计风格方向、高保真原型增强和审美标准。
 - GSD 负责需求、计划、后端/API、执行、验证、文档、git、PR 准备和发布 gate。
 - GoalFlow 根据阶段和动作自动选择合适的能力，把设计、工程和发布安全串成闭环。
 
@@ -35,8 +36,8 @@ AI 编程代理可以很快写代码，但完整功能交付并不只是写代�
 
 - 环境检测：运行时范围、项目根目录、git 仓库和真人 git 作者。
 - 目标澄清：用户确认的意图，或 `--auto` 模式记录的自主假设。
-- 体验设计：Impeccable 主导 UX、视觉系统、交互模型、动效和品牌方向。
-- HTML 原型：对有意义的用户可见功能产出交互原型。
+- 体验设计：Impeccable 主导 UX、视觉系统、交互模型、动效、品牌方向和 Taste-Skill 视觉质量增强。
+- HTML 原型：对有意义的用户可见功能产出高保真交互原型，包含完整 UI、交互闭环、有意义的动效、桌面和移动端响应适配。
 - 设计评审：普通模式等待用户确认；`--auto` 模式开启自主子代理评审并至少迭代一版。
 - 工程计划：GSD 根据原型反推需求、后端/API 边界、阶段计划、验证和 UAT。
 - 实现：分阶段执行，并持续使用 Impeccable 和 GSD 把关。
@@ -62,6 +63,8 @@ rm -rf "$INSTALL_ROOT/goalflow"
 mv "$tmpdir/goalflow" "$INSTALL_ROOT/goalflow"
 rm -rf "$tmpdir"
 ```
+
+Codex 的主推荐安装根仍然是 `~/.codex/skills/goalflow`。但对环境检测来说，Codex 运行时也会接受 `.agents` 中的依赖，因此共享安装不再被当成“外部目录导致失败”的来源。
 
 Claude Code：
 
@@ -148,7 +151,15 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime shared
 ```
 
-检测脚本会检查 Node/npm、git 仓库状态、git 作者、Impeccable、GSD core、GSD skills 和常见产物。缺失时请按 [references/environment.md](references/environment.md) 处理。GoalFlow 不会自动安装依赖，除非用户明确要求。
+检测脚本会检查 Node/npm、git 仓库状态、git 作者、Impeccable、GSD core、GSD skills、Taste-Skill 和常见产物。缺失时请按 [references/environment.md](references/environment.md) 处理。GoalFlow 不会自动安装依赖，除非用户明确要求。
+
+运行时兼容规则如下：
+
+- Codex 默认推荐使用 `~/.codex/skills`，但环境检测会同时接受 `.codex` 和 `.agents` 中的依赖。
+- Claude Code 只接受 `.claude` 中的依赖。
+- `shared` 仍然是显式的 `.agents` 运行时，不是 Claude 的别名。
+
+当使用 `--runtime auto` 时，显式 `--runtime` 仍然优先；安装在 `.claude` 下时继续按 Claude 处理；如果存在 `CODEX_*` 这类 Codex 会话信号，即使 GoalFlow 自己安装在 `.agents/skills/goalflow`，也会优先按 `codex` 处理。
 
 ## 使用
 
@@ -169,10 +180,11 @@ $goalflow --brand 做一个新产品首页
 | `$goalflow <目标>` | 希望先讨论设计，再进入实现。 | GoalFlow 会先做需求澄清、设计和原型，等待设计确认后再推进工程执行。 |
 | `$goalflow --auto <目标>` | 希望跳过常规确认并自主推进。 | GoalFlow 会记录假设，并跳过常规澄清与设计/产品用户确认；但不会跳过自主设计质量评审、blocker、破坏性操作、凭据决策、外部状态变更或发布 gate。 |
 | `$goalflow --brand <目标>` | 功能需要完整品牌文化建设。 | GoalFlow 会推进命名、品牌叙事、Logo 方向、slogan、页面/icon 命名、README 和文档描述统一。 |
+| `$goalflow --multi-prototype <目标>` | 桌面端和移动端需要独立原型。 | GoalFlow 会分别产出桌面（键盘/鼠标）和移动端（触控）的独立 HTML 原型，而非单一响应式原型。 |
 
 ## 原型规则
 
-对有意义的功能，交互 HTML 原型是强制产物。包括新建或改动用户流程、可见 UI、复杂状态、品牌/落地页、 onboarding、设置页、仪表盘、表单和交互重的界面。
+对有意义的功能，交互 HTML 原型是强制产物。包括新建或改动用户流程、可见 UI、复杂状态、品牌/落地页、 onboarding、设置页、仪表盘、表单和交互重的界面。原型必须是高保真的：包含完整 UI、交互闭环、有意义的动效、桌面键盘/鼠标和移动触控的响应适配。
 
 只有纯后端、纯文档、纯文案、数据迁移，或没有新交互的小配置/管理改动，才可以记录原因后跳过原型。
 
@@ -198,7 +210,6 @@ GSD 产物：
 - `.planning/STATE.md`
 - `.planning/research/`
 - `.planning/phases/`
-- `.planning/sketches/`
 - `.planning/debug/`
 - `.planning/intel/`
 
@@ -240,10 +251,28 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ├── goalflow-design.md
 ├── goalflow-brand-culture.md
 ├── .planning/
+│   ├── PROJECT.md
+│   ├── ROADMAP.md
+│   ├── STATE.md
+│   └── config.json
+├── agents/
+│   └── openai.yaml
 ├── references/
+│   ├── artifacts.md
+│   ├── environment.md
+│   ├── harnesses.md
+│   ├── release-gates.md
+│   ├── routing.md
+│   └── workflow.md
 ├── scripts/
+│   └── check_env.mjs
 ├── assets/
+│   ├── goalflow-logo.svg
+│   ├── goalflow-mark.svg
+│   └── goalflow-mark-mono.svg
 └── .github/
+    ├── ISSUE_TEMPLATE/
+    └── pull_request_template.md
 ```
 
 正式发行包遵守 [references/release-gates.md](references/release-gates.md) 中的 skill-only 白名单，因此仓库规划和治理文件不会进入 canonical release assets。
@@ -253,6 +282,7 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 - v0.1.0：核心 GoalFlow skill、环境检测、路由参考、发布 gate、双语 README、品牌系统和轻量开源治理。
 - v0.2.0：新增 canonical `DESIGN.md`、`.planning/` 种子、按运行时限定的环境检测、单色 Logo 标记、更强治理规则、中英双语 release notes 和中英双语 commit 规范。
 - v0.3.0：新增 `AGENTS.md` 仓库级 agent 记忆、轻量 `CLAUDE.md` 导入文件，并强化后续 Codex 与 Claude Code 迭代的上下文连续性。
+- v0.4.0：Taste-Skill 视觉质量权威集成、高保真原型要求、移除 gsd-sketch、`--multi-prototype` 模式和前端 Skill 选择矩阵。
 - 下一阶段：补充更多 harness 安装说明、更完整的使用示例、更多原型示例、自动化发布文档新鲜度检查和更多 agent runtime 兼容性检测。
 
 ## 贡献

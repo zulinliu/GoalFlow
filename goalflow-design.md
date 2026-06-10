@@ -1,6 +1,8 @@
 # GoalFlow 设计方案
 
 > 本文件是 GoalFlow 初始中文设计方案和决策记录。当前 canonical Impeccable 设计系统为根目录 `DESIGN.md`；本文件保留需求澄清、中文讨论结论和历史设计脉络。
+>
+> **v0.4.0 弃用说明**：本文件中关于 `gsd-sketch` 和 `.planning/sketches/` 的引用已过时。v0.4.0 起，所有前端 HTML 原型创建工作统一由 Impeccable（前端流程权威）和 Taste-Skill（视觉质量权威）负责，不再使用 gsd-sketch。请以 `SKILL.md`、`references/routing.md` 和 `references/workflow.md` 为准。
 
 ## 项目定位
 

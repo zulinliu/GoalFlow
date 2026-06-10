@@ -16,6 +16,8 @@ cd <PROJECT_ROOT>
 node ~/.codex/skills/goalflow/scripts/check_env.mjs
 ```
 
+Codex still recommends installing GoalFlow itself in `~/.codex/skills/goalflow`, but the probe treats both `.codex` and `.agents` as valid dependency roots for a Codex run.
+
 Claude Code install:
 
 ```bash
@@ -38,9 +40,9 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runti
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime shared
 ```
 
-The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, and common artifact presence.
+The probe detects Node/npm, git repository state, git author, Impeccable, GSD core, GSD skills, Taste-Skill, and common artifact presence.
 
-Runtime scope matters. A Claude run must not pass only because Impeccable or GSD is installed for Codex, and a Codex run must not pass only because a Claude directory contains the dependency. If the probe reports "found elsewhere," install or sync the dependency into the current runtime and restart the harness.
+Runtime scope matters. Claude accepts only `.claude` roots. Shared accepts only `.agents` roots when `--runtime shared` is explicit. Codex accepts both `.codex` and `.agents` roots, so an `.agents` hit is a full pass for Codex rather than "found elsewhere." If the probe reports "found elsewhere," it means the dependency exists only in an incompatible root such as `.claude` during a Codex run.
 
 ## Base Tools
 
@@ -71,7 +73,7 @@ node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs
 node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs --project <PROJECT_ROOT> --runtime codex
 ```
 
-可选运行时是 `codex`、`claude`、`shared`。如果检测提示依赖安装在其他运行时目录，例如 Claude 检测时只发现 Codex 目录，请把 Impeccable/GSD 安装或同步到当前运行时，然后重启 agent harness。
+可选运行时是 `codex`、`claude`、`shared`。Codex 默认仍推荐安装在 `.codex/skills`，但环境检测会同时接受 `.codex` 和 `.agents` 作为 Codex 兼容来源；Claude 只接受 `.claude`；显式 `shared` 仍然只接受 `.agents`。如果检测提示依赖安装在其他运行时目录，表示它只出现在不兼容的根目录里，例如 Claude 检测时只发现 Codex 目录，此时再去安装或同步到当前运行时并重启 agent harness。
 
 缺 Node/npm/Git 时，先通过系统包管理器或官方安装器安装，再重新打开终端或 agent harness。
 
@@ -152,7 +154,27 @@ $gsd-sync-skills --from codex --to claude --apply
 
 Run `$gsd-sync-skills ...` as an agent/GSD skill invocation, not as a shell command.
 
-GoalFlow requires the GSD routes it calls, including `gsd-new-project`, `gsd-plan-phase`, `gsd-execute-phase`, `gsd-verify-work`, `gsd-docs-update`, `gsd-ship`, `gsd-pr-branch`, `gsd-sketch`, and related review/audit skills. If the probe reports a partial GSD install, reinstall or sync GSD skills and restart the harness.
+GoalFlow requires the GSD routes it calls, including `gsd-new-project`, `gsd-plan-phase`, `gsd-execute-phase`, `gsd-verify-work`, `gsd-docs-update`, `gsd-ship`, `gsd-pr-branch`, and related review/audit skills. If the probe reports a partial GSD install, reinstall or sync GSD skills and restart the harness.
+
+## Taste-Skill
+
+Taste-Skill is the visual quality authority for GoalFlow frontend work. It complements Impeccable by providing design style direction, high-fidelity prototype enhancement, and aesthetic standards.
+
+Preferred install:
+
+```bash
+npx skills add Leonxlnx/taste-skill
+```
+
+Claude Code plugin alternative:
+
+```text
+/plugin marketplace add Leonxlnx/taste-skill
+```
+
+The environment probe checks for required Taste-Skill skills (used in most frontend scenarios) and recommended Taste-Skill skills (used for specific visual styles). If the probe reports missing Taste-Skill skills, install Taste-Skill and restart the harness.
+
+Taste-Skill is not a hard blocker — GoalFlow can proceed with Impeccable alone for basic frontend work — but the prototype visual quality will be limited without it. The probe reports Taste-Skill status so the user can decide whether to install before starting design.
 
 ## Git Requirements
 
@@ -165,15 +187,7 @@ git status
 
 Or change directory to the actual project root.
 
-Git author must be a specific person. These are invalid author names for GoalFlow commits:
-
-- Codex
-- Claude
-- Hapi
-- Agent
-- AI Assistant
-- Bot-only identities
-- GitHub Actions, Dependabot, Renovate, and no-reply/service identities
+Git author must be a specific person. For the full list of blocked author identities and the complete gate procedure, see [release-gates.md](release-gates.md#author-gate). In short: author names such as Codex, Claude, Agent, Bot, or any automation/service identity are not accepted.
 
 Fix:
 

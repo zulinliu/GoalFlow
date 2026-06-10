@@ -1,6 +1,6 @@
 {
   "project": "GoalFlow",
-  "milestone": "v0.2.0",
+  "milestone": "v0.4.0",
   "default_language": "user",
   "primary_harnesses": ["codex", "claude"],
   "release_asset_scope": "skill-only"

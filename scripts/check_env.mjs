@@ -4,6 +4,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {
+  evaluateRuntimeDependencies,
+  VALID_RUNTIME_ARGS,
+} from './check_env_core.mjs';
 
 const invocationCwd = process.cwd();
 const home = os.homedir();
@@ -29,6 +33,33 @@ function exists(p) {
 function firstExisting(paths) {
   return paths.find(exists) || null;
 }
+
+function isDirectory(p) {
+  try {
+    return exists(p) && fs.statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+function listDirs(dir, prefix) {
+  if (!exists(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name.startsWith(prefix))
+    .map((entry) => path.join(dir, entry.name));
+}
+
+const runtimeArg = readOption('runtime') || 'auto';
+const projectArg = readOption('project');
+if (rawArgs.includes('--project') && !projectArg) {
+  console.error('Error: --project requires a directory path argument.');
+  process.exit(2);
+}
+const projectRoot = path.resolve(invocationCwd, projectArg || '.');
+const projectPathOk = isDirectory(projectRoot);
+const projectScopeKnown = Boolean(projectArg) || path.resolve(projectRoot) !== skillRoot;
+const activeProjectRoot = projectPathOk && projectScopeKnown ? projectRoot : null;
+const cwd = activeProjectRoot || invocationCwd;
 
 function run(cmd, args, options = {}) {
   const result = spawnSync(cmd, args, {
@@ -61,82 +92,80 @@ function missingDetail(command) {
   return `${command} not found on PATH`;
 }
 
-function listDirs(dir, prefix) {
-  if (!exists(dir)) return [];
-  return fs.readdirSync(dir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith(prefix))
-    .map((entry) => path.join(dir, entry.name));
+function toDisplayHit(hit) {
+  if (!hit) return null;
+  return {
+    ...hit,
+    path: hit.candidatePath,
+    displayPath: displayPath(hit.candidatePath),
+  };
 }
 
-function isDirectory(p) {
-  try {
-    return exists(p) && fs.statSync(p).isDirectory();
-  } catch {
-    return false;
-  }
+function toDisplayHits(hits) {
+  return hits.map(toDisplayHit);
 }
 
-function inferRuntime(root) {
-  const normalized = root.split(path.sep).join('/');
-  if (normalized.includes('/.codex/skills/goalflow')) return 'codex';
-  if (normalized.includes('/.claude/skills/goalflow')) return 'claude';
-  if (normalized.includes('/.agents/skills/goalflow')) return 'shared';
-  return '';
+function runtimeScopeDetail(runtimeSelection) {
+  if (!runtimeSelection.runtimeKnown) {
+    return 'could not infer runtime from skill path';
+  }
+  if (runtimeSelection.runtimeResolutionReason === 'explicit') {
+    return runtimeSelection.targetRuntime;
+  }
+  if (runtimeSelection.runtimeResolutionReason === 'codex-session') {
+    return `${runtimeSelection.targetRuntime} (auto via CODEX_* session signal)`;
+  }
+  if (runtimeSelection.runtimeResolutionReason === 'install-path') {
+    return `${runtimeSelection.targetRuntime} (auto via install path)`;
+  }
+  return runtimeSelection.targetRuntime;
 }
 
-function runtimePaths(runtime, projectRoot) {
-  const projectPrefix = projectRoot ? [projectRoot] : [];
-  const homePrefix = [home];
-  const prefixes = [...projectPrefix, ...homePrefix];
-
-  if (runtime === 'codex') {
-    return {
-      skillRoots: prefixes.map((root) => path.join(root, '.codex/skills')),
-      gsdCoreRoots: prefixes.map((root) => path.join(root, '.codex/gsd-core')),
-      gsdToolPaths: [
-        ...prefixes.map((root) => path.join(root, '.codex/gsd-core/bin/gsd-tools.cjs')),
-      ],
-    };
+function formatDependencyDetail(primaryHit, incompatibleHit, targetRuntime) {
+  if (primaryHit) {
+    return `${primaryHit.displayPath} (${primaryHit.rootCategory})`;
   }
-
-  if (runtime === 'claude') {
-    return {
-      skillRoots: prefixes.map((root) => path.join(root, '.claude/skills')),
-      gsdCoreRoots: prefixes.map((root) => path.join(root, '.claude/gsd-core')),
-      gsdToolPaths: [
-        ...prefixes.map((root) => path.join(root, '.claude/gsd-core/bin/gsd-tools.cjs')),
-      ],
-    };
+  if (incompatibleHit) {
+    return `not found for ${targetRuntime || 'current runtime'}; found for ${incompatibleHit.ownerRuntime} at ${incompatibleHit.displayPath} (${incompatibleHit.rootCategory})`;
   }
-
-  if (runtime === 'shared') {
-    return {
-      skillRoots: prefixes.map((root) => path.join(root, '.agents/skills')),
-      gsdCoreRoots: prefixes.map((root) => path.join(root, '.agents/gsd-core')),
-      gsdToolPaths: [
-        ...prefixes.map((root) => path.join(root, '.agents/gsd-core/bin/gsd-tools.cjs')),
-      ],
-    };
-  }
-
-  return { skillRoots: [], gsdCoreRoots: [], gsdToolPaths: [] };
+  return 'not found';
 }
 
-const runtimeArg = readOption('runtime') || 'auto';
-const validRuntimeArgs = new Set(['auto', 'codex', 'claude', 'shared']);
-const runtimeArgValid = validRuntimeArgs.has(runtimeArg);
-const inferredRuntime = inferRuntime(skillRoot);
-const targetRuntime = runtimeArgValid && runtimeArg !== 'auto' ? runtimeArg : inferredRuntime;
-const runtimeKnown = ['codex', 'claude', 'shared'].includes(targetRuntime);
-const projectArg = readOption('project');
-const projectRoot = path.resolve(invocationCwd, projectArg || '.');
-const projectPathOk = isDirectory(projectRoot);
-const projectScopeKnown = Boolean(projectArg) || path.resolve(projectRoot) !== skillRoot;
-const activeProjectRoot = projectPathOk && projectScopeKnown ? projectRoot : null;
-const cwd = activeProjectRoot || invocationCwd;
-const runtimeScope = runtimePaths(targetRuntime, activeProjectRoot);
-const otherRuntimeNames = ['codex', 'claude', 'shared'].filter((runtime) => runtime !== targetRuntime);
-const otherRuntimeScopes = otherRuntimeNames.map((runtime) => ({ runtime, ...runtimePaths(runtime, activeProjectRoot) }));
+function formatRuntimeSkillTarget(runtime) {
+  if (runtime === 'codex') return 'a Codex-compatible skills root (`.codex/skills` or `.agents/skills`)';
+  if (runtime === 'claude') return 'the Claude skills root (`.claude/skills`)';
+  if (runtime === 'shared') return 'the shared skills root (`.agents/skills`)';
+  return 'the active runtime skills root';
+}
+
+function formatRuntimeCoreTarget(runtime) {
+  if (runtime === 'codex') return 'a Codex-compatible GSD core root (`.codex/gsd-core` or `.agents/gsd-core`)';
+  if (runtime === 'claude') return 'the Claude GSD core root (`.claude/gsd-core`)';
+  if (runtime === 'shared') return 'the shared GSD core root (`.agents/gsd-core`)';
+  return 'the active runtime GSD core root';
+}
+
+function formatImpeccableFix(runtime) {
+  return `Install Impeccable into ${formatRuntimeSkillTarget(runtime)}, for example: \`npx impeccable skills install\`, then restart the harness.`;
+}
+
+function formatGsdCoreFix(runtime) {
+  return `Install GSD into ${formatRuntimeCoreTarget(runtime)}, for example: \`npx @opengsd/gsd-core@latest\`, choose the matching runtime, then restart the harness.`;
+}
+
+function formatGsdSkillsFix(runtime) {
+  return `Install or sync the required GSD skills into ${formatRuntimeSkillTarget(runtime)}, then restart the harness.`;
+}
+
+const runtimeProbe = evaluateRuntimeDependencies({
+  runtimeArg,
+  skillRoot,
+  projectRoot: activeProjectRoot,
+  homeDir: home,
+  env: process.env,
+  exists,
+  listDirs,
+});
 
 const nodeVersion = process.version;
 const npmVersion = commandVersion('npm');
@@ -164,58 +193,35 @@ const invalidAuthorFields = [
 ].filter(Boolean);
 const invalidAuthor = invalidAuthorFields.length > 0;
 
-const scopedImpeccableSkills = runtimeScope.skillRoots.map((root) => path.join(root, 'impeccable/SKILL.md'));
-const otherRuntimeImpeccableSkills = otherRuntimeScopes.flatMap((scope) => (
-  scope.skillRoots.map((root) => ({ runtime: scope.runtime, path: path.join(root, 'impeccable/SKILL.md') }))
-));
-const impeccableSkill = runtimeKnown ? firstExisting(scopedImpeccableSkills) : null;
-const otherImpeccableSkill = otherRuntimeImpeccableSkills.find((candidate) => exists(candidate.path)) || null;
+const impeccableHit = toDisplayHit(runtimeProbe.impeccable.compatible.primaryHit);
+const otherImpeccableHit = toDisplayHit(runtimeProbe.impeccable.incompatible.primaryHit);
+const impeccableSkill = impeccableHit ? impeccableHit.path : null;
 const impeccableRoot = impeccableSkill ? path.dirname(impeccableSkill) : null;
 const impeccableContextScript = impeccableRoot ? path.join(impeccableRoot, 'scripts/context.mjs') : null;
 const impeccableDetectScript = impeccableRoot ? path.join(impeccableRoot, 'scripts/detect.mjs') : null;
 
-const scopedGsdCores = runtimeScope.gsdCoreRoots;
-const otherRuntimeGsdCores = otherRuntimeScopes.flatMap((scope) => (
-  scope.gsdCoreRoots.map((root) => ({ runtime: scope.runtime, path: root }))
-));
-const gsdCore = runtimeKnown ? firstExisting(scopedGsdCores) : null;
-const otherGsdCore = otherRuntimeGsdCores.find((candidate) => exists(candidate.path)) || null;
+const gsdCoreHit = toDisplayHit(runtimeProbe.gsdCore.compatible.primaryHit);
+const otherGsdCoreHit = toDisplayHit(runtimeProbe.gsdCore.incompatible.primaryHit);
+const gsdCore = gsdCoreHit ? gsdCoreHit.path : null;
 const gsdVersionPath = gsdCore ? path.join(gsdCore, 'VERSION') : null;
 const gsdVersion = exists(gsdVersionPath) ? fs.readFileSync(gsdVersionPath, 'utf8').trim() : null;
-const gsdSkillRoots = runtimeKnown ? runtimeScope.skillRoots : [];
-const gsdSkills = gsdSkillRoots.flatMap((root) => listDirs(root, 'gsd-'));
-const gsdSkillNames = new Set(gsdSkills.map((skillPath) => path.basename(skillPath)));
-const requiredGsdSkills = [
-  'gsd-new-project',
-  'gsd-spec-phase',
-  'gsd-discuss-phase',
-  'gsd-plan-phase',
-  'gsd-execute-phase',
-  'gsd-autonomous',
-  'gsd-code-review',
-  'gsd-audit-fix',
-  'gsd-validate-phase',
-  'gsd-verify-work',
-  'gsd-audit-uat',
-  'gsd-add-tests',
-  'gsd-docs-update',
-  'gsd-ship',
-  'gsd-pr-branch',
-  'gsd-complete-milestone',
-  'gsd-sketch',
-  'gsd-progress',
-];
-const missingRequiredGsdSkills = requiredGsdSkills.filter((name) => !gsdSkillNames.has(name));
-const gsdToolsPath = firstExisting([
-  gsdCore ? path.join(gsdCore, 'bin/gsd-tools.cjs') : null,
-  ...runtimeScope.gsdToolPaths,
-]);
-let gsdTools = commandVersion('gsd-tools', ['--version']);
-const pathGsdTools = gsdTools;
-gsdTools = null;
+const gsdSkillHits = toDisplayHits(runtimeProbe.gsdSkills.compatible.hits);
+const gsdSkillNames = new Set(runtimeProbe.gsdSkills.compatible.uniqueNames);
+const missingRequiredGsdSkills = runtimeProbe.gsdSkills.compatible.missingRequired;
+const gsdToolsPath = firstExisting(runtimeProbe.compatibleRoots.map((root) => root.gsdToolsPath));
+
+const tasteSkillHits = toDisplayHits(runtimeProbe.tasteSkills.compatible.hits);
+const tasteSkillNames = new Set(runtimeProbe.tasteSkills.compatible.uniqueNames);
+const missingRequiredTasteSkills = runtimeProbe.tasteSkills.compatible.missingRequired;
+const missingRecommendedTasteSkills = runtimeProbe.tasteSkills.compatible.missingRecommended;
+const otherTasteHit = toDisplayHit(runtimeProbe.tasteSkills.incompatible.primaryHit);
+let gsdTools = null;
+const pathGsdTools = commandVersion('gsd-tools', ['--version']);
 if (gsdToolsPath) {
   const localTools = run('node', [gsdToolsPath, '--version']);
   gsdTools = localTools.ok ? localTools.stdout.split(/\r?\n/)[0] : gsdToolsPath;
+} else if (pathGsdTools) {
+  gsdTools = pathGsdTools;
 }
 
 const productPath = firstExisting([
@@ -232,24 +238,165 @@ const srcDir = activeProjectRoot && (exists(path.join(activeProjectRoot, 'src'))
 const hasCode = packageJson || srcDir;
 
 const checks = [
-  { id: 'runtime-arg', label: 'Runtime argument', status: runtimeArgValid ? 'ok' : 'blocker', detail: runtimeArgValid ? runtimeArg : `${runtimeArg} is invalid`, fix: 'Use `--runtime codex`, `--runtime claude`, `--runtime shared`, or omit it from a standard GoalFlow install.' },
-  { id: 'runtime-scope', label: 'Runtime scope', status: runtimeKnown ? 'ok' : 'warn', detail: runtimeKnown ? targetRuntime : 'could not infer runtime from skill path', fix: 'Run the probe from a standard install path or pass `--runtime codex`, `--runtime claude`, or `--runtime shared`.' },
-  { id: 'project-path', label: 'Project path', status: projectPathOk ? 'ok' : 'blocker', detail: projectPathOk ? projectRoot : `${projectRoot} is not a directory`, fix: 'Pass an existing project directory with `--project <PROJECT_ROOT>`.' },
-  { id: 'project-scope', label: 'Project scope', status: activeProjectRoot ? 'ok' : 'warn', detail: activeProjectRoot || 'using invocation directory only; project artifacts are not scoped because the probe appears to be running from the skill directory', fix: 'Run from the target project root: `cd <PROJECT_ROOT> && node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs`, or pass `--project <PROJECT_ROOT>`.' },
-  { id: 'node', label: 'Node.js', status: nodeVersion ? 'ok' : 'missing', detail: nodeVersion || missingDetail('node'), fix: 'Install Node.js with npm/npx, then rerun the probe.' },
-  { id: 'npm', label: 'npm', status: npmVersion ? 'ok' : 'missing', detail: npmVersion || missingDetail('npm'), fix: 'Install npm/npx through your Node.js distribution, then rerun the probe.' },
-  { id: 'git', label: 'git', status: gitVersion ? 'ok' : 'missing', detail: gitVersion || missingDetail('git'), fix: 'Install Git, then rerun the probe from the project root.' },
-  { id: 'git-repo', label: 'Git repository', status: !gitVersion ? 'info' : (gitRoot ? 'ok' : 'blocker'), detail: !gitVersion ? 'skipped because git is missing' : (gitRoot || 'not inside a git repository'), fix: 'Run `git init` in this project or change directory to the actual repository root.' },
-  { id: 'git-author', label: 'Git author', status: !gitVersion || !gitRoot ? 'info' : (gitName && gitEmail && !invalidAuthor ? 'ok' : 'blocker'), detail: !gitVersion || !gitRoot ? 'skipped until git repository is available' : `${gitName || '(missing name)'} <${gitEmail || 'missing email'}>${invalidAuthor ? `; invalid ${invalidAuthorFields.join(', ')}` : ''}`, fix: 'Set a real person as author: `git config user.name "Your Name"` and `git config user.email "you@example.com"`.' },
-  { id: 'impeccable', label: 'Impeccable skill', status: impeccableSkill ? 'ok' : 'missing', detail: impeccableSkill || (otherImpeccableSkill ? `not found for ${targetRuntime || 'current runtime'}; found for ${otherImpeccableSkill.runtime} at ${otherImpeccableSkill.path}` : 'not found'), fix: `Install Impeccable for ${targetRuntime || 'this runtime'}, for example: \`npx impeccable skills install\`, then restart the harness.` },
-  { id: 'impeccable-context', label: 'Impeccable context script', status: exists(impeccableContextScript) ? 'ok' : 'missing', detail: impeccableContextScript || 'not found for current runtime', fix: 'Reinstall or update Impeccable in the current runtime so `scripts/context.mjs` is present.' },
-  { id: 'impeccable-detect', label: 'Impeccable detect script', status: exists(impeccableDetectScript) ? 'ok' : 'missing', detail: impeccableDetectScript || 'not found for current runtime', fix: 'Reinstall or update Impeccable in the current runtime so `scripts/detect.mjs` is present.' },
-  { id: 'gsd-core', label: 'GSD core', status: gsdCore ? 'ok' : 'missing', detail: gsdCore || (otherGsdCore ? `not found for ${targetRuntime || 'current runtime'}; found for ${otherGsdCore.runtime} at ${otherGsdCore.path}` : 'not found'), fix: `Install GSD for ${targetRuntime || 'this runtime'}, for example: \`npx @opengsd/gsd-core@latest\`, choose the matching runtime, then restart the harness.` },
-  { id: 'gsd-version', label: 'GSD version', status: gsdVersion ? 'ok' : 'warn', detail: gsdVersion || 'VERSION missing', fix: 'Update or reinstall GSD so the core VERSION file is available.' },
-  { id: 'gsd-skills', label: 'GSD skills', status: missingRequiredGsdSkills.length ? 'missing' : 'ok', detail: missingRequiredGsdSkills.length ? `${gsdSkillNames.size} unique skills found; missing required: ${missingRequiredGsdSkills.join(', ')}` : `${gsdSkillNames.size} unique skills found`, fix: 'Reinstall or sync GSD skills for this runtime, then restart the harness.' },
-  { id: 'product-md', label: 'PRODUCT.md', status: !activeProjectRoot ? 'info' : (productPath ? 'ok' : 'warn'), detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (productPath || 'missing; run Impeccable init before design'), fix: 'Run Impeccable initialization before design work.' },
-  { id: 'design-md', label: 'DESIGN.md', status: !activeProjectRoot ? 'info' : (designPath ? 'ok' : (hasCode ? 'warn' : 'info')), detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (designPath || (hasCode ? 'missing with code present; run Impeccable document' : 'missing; acceptable before design seed')), fix: 'Run Impeccable document before major frontend implementation.' },
-  { id: 'planning', label: '.planning', status: !activeProjectRoot ? 'info' : (planningPath ? 'ok' : 'warn'), detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (planningPath || 'missing; initialize GSD before engineering planning'), fix: 'Initialize GSD before engineering planning.' },
+  {
+    id: 'runtime-arg',
+    label: 'Runtime argument',
+    status: VALID_RUNTIME_ARGS.has(runtimeArg) ? 'ok' : 'blocker',
+    detail: VALID_RUNTIME_ARGS.has(runtimeArg) ? runtimeArg : `${runtimeArg} is invalid`,
+    fix: 'Use `--runtime codex`, `--runtime claude`, `--runtime shared`, or omit it from a standard GoalFlow install.',
+  },
+  {
+    id: 'runtime-scope',
+    label: 'Runtime scope',
+    status: runtimeProbe.runtimeKnown ? 'ok' : 'warn',
+    detail: runtimeScopeDetail(runtimeProbe),
+    fix: 'Run the probe from a standard install path or pass `--runtime codex`, `--runtime claude`, or `--runtime shared`.',
+  },
+  {
+    id: 'project-path',
+    label: 'Project path',
+    status: projectPathOk ? 'ok' : 'blocker',
+    detail: projectPathOk ? projectRoot : `${projectRoot} is not a directory`,
+    fix: 'Pass an existing project directory with `--project <PROJECT_ROOT>`.',
+  },
+  {
+    id: 'project-scope',
+    label: 'Project scope',
+    status: activeProjectRoot ? 'ok' : 'warn',
+    detail: activeProjectRoot || 'using invocation directory only; project artifacts are not scoped because the probe appears to be running from the skill directory',
+    fix: 'Run from the target project root: `cd <PROJECT_ROOT> && node <GOALFLOW_SKILL_DIR>/scripts/check_env.mjs`, or pass `--project <PROJECT_ROOT>`.',
+  },
+  {
+    id: 'node',
+    label: 'Node.js',
+    status: nodeVersion ? 'ok' : 'missing',
+    detail: nodeVersion || missingDetail('node'),
+    fix: 'Install Node.js with npm/npx, then rerun the probe.',
+  },
+  {
+    id: 'npm',
+    label: 'npm',
+    status: npmVersion ? 'ok' : 'missing',
+    detail: npmVersion || missingDetail('npm'),
+    fix: 'Install npm/npx through your Node.js distribution, then rerun the probe.',
+  },
+  {
+    id: 'git',
+    label: 'git',
+    status: gitVersion ? 'ok' : 'missing',
+    detail: gitVersion || missingDetail('git'),
+    fix: 'Install Git, then rerun the probe from the project root.',
+  },
+  {
+    id: 'git-repo',
+    label: 'Git repository',
+    status: !gitVersion ? 'info' : (gitRoot ? 'ok' : 'blocker'),
+    detail: !gitVersion ? 'skipped because git is missing' : (gitRoot || 'not inside a git repository'),
+    fix: 'Run `git init` in this project or change directory to the actual repository root.',
+  },
+  {
+    id: 'git-author',
+    label: 'Git author',
+    status: !gitVersion || !gitRoot ? 'info' : (gitName && gitEmail && !invalidAuthor ? 'ok' : 'blocker'),
+    detail: !gitVersion || !gitRoot ? 'skipped until git repository is available' : `${gitName || '(missing name)'} <${gitEmail || 'missing email'}>${invalidAuthor ? `; invalid ${invalidAuthorFields.join(', ')}` : ''}`,
+    fix: 'Set a real person as author: `git config user.name "Your Name"` and `git config user.email "you@example.com"`.',
+  },
+  {
+    id: 'impeccable',
+    label: 'Impeccable skill',
+    status: impeccableSkill ? 'ok' : 'missing',
+    detail: formatDependencyDetail(impeccableHit, otherImpeccableHit, runtimeProbe.targetRuntime),
+    fix: formatImpeccableFix(runtimeProbe.targetRuntime),
+  },
+  {
+    id: 'impeccable-context',
+    label: 'Impeccable context script',
+    status: exists(impeccableContextScript) ? 'ok' : 'missing',
+    detail: impeccableContextScript ? displayPath(impeccableContextScript) : 'not found for current runtime',
+    fix: 'Reinstall or update Impeccable in the active runtime so `scripts/context.mjs` is present.',
+  },
+  {
+    id: 'impeccable-detect',
+    label: 'Impeccable detect script',
+    status: exists(impeccableDetectScript) ? 'ok' : 'missing',
+    detail: impeccableDetectScript ? displayPath(impeccableDetectScript) : 'not found for current runtime',
+    fix: 'Reinstall or update Impeccable in the active runtime so `scripts/detect.mjs` is present.',
+  },
+  {
+    id: 'gsd-core',
+    label: 'GSD core',
+    status: gsdCore ? 'ok' : 'missing',
+    detail: formatDependencyDetail(gsdCoreHit, otherGsdCoreHit, runtimeProbe.targetRuntime),
+    fix: formatGsdCoreFix(runtimeProbe.targetRuntime),
+  },
+  {
+    id: 'gsd-version',
+    label: 'GSD version',
+    status: gsdVersion ? 'ok' : 'warn',
+    detail: gsdVersion || 'VERSION missing',
+    fix: 'Update or reinstall GSD so the core VERSION file is available.',
+  },
+  {
+    id: 'gsd-skills',
+    label: 'GSD skills',
+    status: missingRequiredGsdSkills.length ? 'missing' : 'ok',
+    detail: missingRequiredGsdSkills.length
+      ? `${gsdSkillNames.size} unique skills found across ${runtimeProbe.gsdSkills.compatible.rootCategories.join(', ') || 'no compatible roots'}; missing required: ${missingRequiredGsdSkills.join(', ')}`
+      : `${gsdSkillNames.size} unique skills found across ${runtimeProbe.gsdSkills.compatible.rootCategories.join(', ') || 'compatible roots'}`,
+    fix: formatGsdSkillsFix(runtimeProbe.targetRuntime),
+  },
+  {
+    id: 'taste-core',
+    label: 'Taste-Skill',
+    status: tasteSkillNames.size > 0 ? 'ok' : 'warn',
+    detail: tasteSkillNames.size > 0
+      ? `${tasteSkillNames.size} Taste-Skill skills found across ${runtimeProbe.tasteSkills.compatible.rootCategories.join(', ') || 'compatible roots'}`
+      : formatDependencyDetail(null, otherTasteHit, runtimeProbe.targetRuntime),
+    fix: 'Taste-Skill is optional but recommended for high-fidelity prototype visual quality. Install with `npx skills add Leonxlnx/taste-skill`, then restart the harness.',
+  },
+  {
+    id: 'taste-required',
+    label: 'Taste-Skill core skills',
+    status: !tasteSkillNames.size ? 'info' : (missingRequiredTasteSkills.length ? 'warn' : 'ok'),
+    detail: !tasteSkillNames.size
+      ? 'skipped because Taste-Skill is not installed'
+      : (missingRequiredTasteSkills.length
+        ? `missing core skills: ${missingRequiredTasteSkills.join(', ')}`
+        : 'all core Taste-Skill skills present'),
+    fix: 'Reinstall or update Taste-Skill to get the latest core skills.',
+  },
+  {
+    id: 'taste-recommended',
+    label: 'Taste-Skill style skills',
+    status: !tasteSkillNames.size ? 'info' : (missingRecommendedTasteSkills.length ? 'info' : 'ok'),
+    detail: !tasteSkillNames.size
+      ? 'skipped because Taste-Skill is not installed'
+      : (missingRecommendedTasteSkills.length
+        ? `optional style skills not installed: ${missingRecommendedTasteSkills.join(', ')}`
+        : 'all recommended Taste-Skill skills present'),
+    fix: 'Style-specific Taste-Skill skills are optional. Install them when needed for specific visual styles.',
+  },
+  {
+    id: 'product-md',
+    label: 'PRODUCT.md',
+    status: !activeProjectRoot ? 'info' : (productPath ? 'ok' : 'warn'),
+    detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (productPath || 'missing; run Impeccable init before design'),
+    fix: 'Run Impeccable initialization before design work.',
+  },
+  {
+    id: 'design-md',
+    label: 'DESIGN.md',
+    status: !activeProjectRoot ? 'info' : (designPath ? 'ok' : (hasCode ? 'warn' : 'info')),
+    detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (designPath || (hasCode ? 'missing with code present; run Impeccable document' : 'missing; acceptable before design seed')),
+    fix: 'Run Impeccable document before major frontend implementation.',
+  },
+  {
+    id: 'planning',
+    label: '.planning',
+    status: !activeProjectRoot ? 'info' : (planningPath ? 'ok' : 'warn'),
+    detail: !activeProjectRoot ? 'skipped until target project root is explicit' : (planningPath || 'missing; initialize GSD before engineering planning'),
+    fix: 'Initialize GSD before engineering planning.',
+  },
 ];
 
 const blockers = checks.filter((check) => check.status === 'blocker');
@@ -272,9 +419,15 @@ const result = {
   facts: {
     skillRoot,
     runtimeArg,
-    inferredRuntime,
-    targetRuntime,
-    runtimeKnown,
+    inferredRuntime: runtimeProbe.inferredRuntime,
+    targetRuntime: runtimeProbe.targetRuntime,
+    runtimeKnown: runtimeProbe.runtimeKnown,
+    runtimeResolutionReason: runtimeProbe.runtimeResolutionReason,
+    codexSessionDetected: runtimeProbe.codexSessionDetected,
+    compatibleRootCategories: runtimeProbe.compatibleRootCategories,
+    compatibleRoots: runtimeProbe.compatibleRoots,
+    incompatibleRootCategories: runtimeProbe.incompatibleRootCategories,
+    incompatibleRoots: runtimeProbe.incompatibleRoots,
     projectArg,
     projectPathOk,
     projectScopeKnown,
@@ -291,14 +444,26 @@ const result = {
     invalidAuthor,
     invalidAuthorFields,
     impeccableRoot,
-    otherImpeccableSkill,
+    impeccableRootCategory: impeccableHit ? impeccableHit.rootCategory : null,
+    impeccableHits: toDisplayHits(runtimeProbe.impeccable.compatible.hits),
+    otherImpeccableSkill: otherImpeccableHit,
     gsdCore,
-    otherGsdCore,
+    gsdCoreRootCategory: gsdCoreHit ? gsdCoreHit.rootCategory : null,
+    gsdCoreHits: toDisplayHits(runtimeProbe.gsdCore.compatible.hits),
+    otherGsdCore: otherGsdCoreHit,
     gsdVersion,
     gsdSkillCount: gsdSkillNames.size,
+    gsdSkillRootCategories: runtimeProbe.gsdSkills.compatible.rootCategories,
+    gsdSkillHits,
     missingRequiredGsdSkills,
     gsdTools,
     pathGsdTools,
+    tasteSkillCount: tasteSkillNames.size,
+    tasteSkillRootCategories: runtimeProbe.tasteSkills.compatible.rootCategories,
+    tasteSkillHits,
+    missingRequiredTasteSkills,
+    missingRecommendedTasteSkills,
+    otherTasteSkill: otherTasteHit,
     hasCode,
     environmentDoc,
   },
@@ -309,7 +474,7 @@ if (jsonMode) {
 } else {
   console.log('GoalFlow environment check');
   console.log(`skill: ${displayPath(skillRoot)}`);
-  console.log(`runtime: ${targetRuntime || 'unknown'}${inferredRuntime ? ` (inferred: ${inferredRuntime})` : ''}`);
+  console.log(`runtime: ${runtimeProbe.targetRuntime || 'unknown'}${runtimeProbe.inferredRuntime ? ` (inferred: ${runtimeProbe.inferredRuntime})` : ''}`);
   console.log(`cwd: ${invocationCwd}`);
   console.log(`project: ${activeProjectRoot || 'not explicit'}`);
   console.log('');
@@ -324,7 +489,7 @@ if (jsonMode) {
   console.log('');
   if (result.ok) {
     if (warnings.length) {
-      console.log('Core dependencies are installed; project setup warnings remain before full GoalFlow delivery.');
+      console.log('Core dependencies are installed for the active runtime; project setup warnings remain before full GoalFlow delivery.');
     } else {
       console.log('Environment is ready for GoalFlow.');
     }

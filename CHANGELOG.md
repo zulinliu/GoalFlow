@@ -2,7 +2,33 @@
 
 All notable changes to GoalFlow are documented here.
 
-## 0.3.0 - 2026-06-09
+## Unreleased
+
+<!-- Target: v0.4.0 -->
+
+### Added
+
+- Taste-Skill as visual quality authority: design style direction, high-fidelity prototype enhancement, and aesthetic standards alongside Impeccable's frontend flow authority.
+- Taste-Skill detection in the environment probe (non-blocking, `warn`/`info` status for missing skills).
+- `--multi-prototype` mode for producing separate desktop and mobile HTML prototypes when interaction models differ significantly.
+- Frontend Skill Selection Matrix in `routing.md` for scenario-aware Taste-Skill selection.
+- High-fidelity prototype requirements: complete UI, interaction loops, purposeful motion, responsive adaptation for desktop keyboard/mouse and mobile touch, touch-friendly targets (minimum 44px).
+- Taste-Skill dependency section in `environment.md` with install instructions and probe behavior.
+
+### Changed
+
+- Frontend flow authority split: Impeccable controls when to shape, craft, review, and adapt; Taste-Skill controls design style and visual quality. All frontend HTML prototype creation now uses Impeccable and Taste-Skill professional capabilities.
+- Fixed Codex environment detection so `.agents` is treated as a fully compatible dependency root alongside `.codex`, avoiding false missing-Impeccable/GSD reports.
+- Fixed `--runtime auto` so Codex session signals such as `CODEX_*` prefer `codex` even when GoalFlow itself is installed under `.agents/skills/goalflow`.
+- Tightened probe guidance and docs so Codex no longer suggests copying or syncing dependencies into `.codex` when `.agents` already satisfies the runtime.
+- Updated routing, workflow, artifacts, environment, AGENTS.md, README, and planning documents for Taste-Skill integration and gsd-sketch removal.
+
+### Removed
+
+- `gsd-sketch` from `REQUIRED_GSD_SKILLS` in the environment probe.
+- `.planning/sketches/` references from artifacts, environment, and README documentation. `goalflow-design.md` preserved as historical reference with deprecation header.
+
+## [v0.3.0] - 2026-06-09
 
 ### Added
 
@@ -16,7 +42,7 @@ All notable changes to GoalFlow are documented here.
 - Refreshed English and Chinese README roadmap entries for v0.2.0 and v0.3.0.
 - Added README version-sync requirements to release gates, agent memory, contribution guidance, and the PR template.
 
-## 0.2.0 - 2026-06-09
+## [v0.2.0] - 2026-06-09
 
 ### Added
 
@@ -33,7 +59,7 @@ All notable changes to GoalFlow are documented here.
 - Required bilingual English and Simplified Chinese release notes for future GoalFlow releases.
 - Centralized git/release standing rules and required bilingual English and Simplified Chinese commit messages.
 
-## 0.1.0 - 2026-06-09
+## [v0.1.0] - 2026-06-09
 
 ### Added
 

@@ -2,6 +2,14 @@
 
 GoalFlow does not create its own artifact directory. Preserve native Impeccable and GSD locations.
 
+## Skill Artifacts
+
+The `agents/` directory in the GoalFlow skill package contains runtime registration files:
+
+- `agents/openai.yaml`: Codex/OpenAI agent interface definition. This file registers GoalFlow as a Codex skill with display name, short description, default prompt, and implicit invocation policy.
+
+This directory is included in the skill-only release package per [release-gates.md](release-gates.md).
+
 ## Impeccable Artifacts
 
 Use the project's existing Impeccable conventions:
@@ -26,7 +34,6 @@ Use GSD's `.planning/` conventions:
 - `.planning/STATE.md`
 - `.planning/research/`
 - `.planning/phases/`
-- `.planning/sketches/`
 - `.planning/debug/`
 - `.planning/intel/`
 
@@ -42,16 +49,22 @@ Preferred locations:
 
 1. Existing project source route/component when the prototype is meant to become production code.
 2. A standalone `index.html` when the project is empty or the user needs a pure prototype.
-3. `.planning/sketches/NNN-name/index.html` when running GSD sketch for variant comparison and design decision archival.
 
 Prototype requirements:
 
 - Realistic content.
 - Key user flows and state transitions.
-- Responsive behavior.
+- Responsive behavior for both desktop and mobile viewports.
 - Hover, focus, active, loading, empty, error, and success states where applicable.
-- Purposeful motion and reduced-motion fallback.
+- Purposeful motion with reduced-motion alternatives.
+- Touch-friendly targets (minimum 44px) for mobile interaction.
+- Complete interaction loops for desktop keyboard/mouse and mobile touch.
 - Git commit.
+
+Multi-device mode (`--multi-prototype`):
+
+- Default: one responsive HTML prototype adapts to all viewports via CSS breakpoints, Container Queries, pointer/hover media queries, and touch-friendly sizing.
+- `--multi-prototype`: separate prototypes for desktop and mobile, each optimized for its input model. Use when the user explicitly requests distinct device-specific prototypes or when the interaction models differ significantly between device classes.
 
 ## Language
 
