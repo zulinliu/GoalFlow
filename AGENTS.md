@@ -67,7 +67,7 @@ Commit subject format:
 <type>: <English summary> / <中文摘要>
 ```
 
-Every commit and release action also requires the author gate:
+Every commit and release action also requires the author gate. For the complete gate procedure and blocked identity list, see `references/release-gates.md`. In short:
 
 ```bash
 git config user.name

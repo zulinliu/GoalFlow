@@ -250,10 +250,28 @@ GoalFlow 只有在确认 git 作者是真实具体的人之后，才能准备本
 ├── goalflow-design.md
 ├── goalflow-brand-culture.md
 ├── .planning/
+│   ├── PROJECT.md
+│   ├── ROADMAP.md
+│   ├── STATE.md
+│   └── config.json
+├── agents/
+│   └── openai.yaml
 ├── references/
+│   ├── artifacts.md
+│   ├── environment.md
+│   ├── harnesses.md
+│   ├── release-gates.md
+│   ├── routing.md
+│   └── workflow.md
 ├── scripts/
+│   └── check_env.mjs
 ├── assets/
+│   ├── goalflow-logo.svg
+│   ├── goalflow-mark.svg
+│   └── goalflow-mark-mono.svg
 └── .github/
+    ├── ISSUE_TEMPLATE/
+    └── pull_request_template.md
 ```
 
 正式发行包遵守 [references/release-gates.md](references/release-gates.md) 中的 skill-only 白名单，因此仓库规划和治理文件不会进入 canonical release assets。

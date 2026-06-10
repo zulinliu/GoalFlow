@@ -4,7 +4,7 @@ GoalFlow is an AI coding-agent skill that turns one high-level feature goal into
 
 ## Current Milestone
 
-v0.2.0 review hardening after the v0.1.0 initial release.
+v0.4.0 Codex environment probe compatibility fixes.
 
 ## Product Goals
 
@@ -14,18 +14,23 @@ v0.2.0 review hardening after the v0.1.0 initial release.
 - Support Codex and Claude first, with clear fallback behavior for other harnesses.
 - Maintain real-person authorship and explicit user gates for remote mutation and publication.
 
-## Public Artifacts
+## Source Repository Files
 
-- `SKILL.md`
-- `agents/`
-- `assets/`
-- `references/`
-- `scripts/`
+Files below belong to the source repository. They are NOT part of the skill-only release package (see `references/release-gates.md` for the canonical whitelist).
+
 - `README.md`
 - `README.zh-CN.md`
 - `PRODUCT.md`
 - `DESIGN.md`
+- `goalflow-design.md`
+- `goalflow-brand-culture.md`
+- `CHANGELOG.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
+- `CODE_OF_CONDUCT.md`
+- `.github/`
+- `.planning/`
 
 ## Release Boundary
 
-Canonical release assets are skill-only packages. Repository governance, planning, design drafts, and GitHub templates remain source repository artifacts unless explicitly allowed by `references/release-gates.md`.
+Canonical release assets are skill-only packages (`SKILL.md`, `agents/`, `assets/`, `references/`, `scripts/`, `LICENSE`). Repository governance, planning, design drafts, and GitHub templates remain source repository artifacts unless explicitly allowed by `references/release-gates.md`.

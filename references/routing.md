@@ -47,7 +47,7 @@ Use GSD for:
 - UI contract/review support after Impeccable design direction is set: `$gsd-ui-phase`, `$gsd-ui-review`
 - HTML variant archiving: `$gsd-sketch`
 - Progress and next action: `$gsd-progress`
-- Release and PR preparation: `$gsd-ship`, `$gsd-pr-branch`, `$gsd-complete-milestone`
+- Release and PR preparation: `$gsd-ship`, `$gsd-pr-branch`, `$gsd-complete-milestone`, `$gsd-audit-milestone`
 
 Do not use `$gsd-new-project` for release work. Before the Impeccable prototype exists, use it only for bootstrap/context capture; do not let it finalize requirements, roadmap commitments, backend/API boundaries, or phase plans.
 

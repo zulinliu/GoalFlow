@@ -1,6 +1,17 @@
 ---
 name: goalflow
-description: End-to-end feature delivery orchestration for AI coding agents. Use when the user explicitly invokes $goalflow or asks to turn one high-level feature goal into a production-ready delivery flow across design, interactive HTML prototype, implementation, verification, documentation, git, PR, and release gates through Impeccable-led UX/frontend craft and GSD-led engineering workflow. Do not use for isolated code review, small edits, single-skill frontend polish, or backend-only work unless the user asks for GoalFlow-level orchestration. Supports the user's language, Codex and Claude optimized workflows, optional --auto autonomous mode, and optional --brand full brand culture work.
+description: >
+  Use when the user wants to build a complete feature from a high-level goal — design, HTML
+  prototype, implementation, verification, documentation, PR, and release — or explicitly invokes
+  $goalflow. Use when the user says "build a feature end to end", "from design to release",
+  "prototype then implement", "ship a feature with design review, tests, and a PR",
+  "做一个 XX 功能", "从设计到发布", or wants end-to-end feature delivery orchestration.
+  Routes each step through Impeccable (UX/UI/prototype) and GSD (requirements/execution/release).
+  Supports --auto autonomous mode, --brand identity work, Chinese and English, and Codex/Claude
+  runtimes. Do not use for isolated edits, single-skill polish, code review, or backend-only work
+  unless the user asks for GoalFlow-level orchestration.
+metadata:
+  short-description: Turn one feature goal into a release-ready delivery
 ---
 
 # GoalFlow
@@ -65,9 +76,14 @@ Follow [workflow.md](references/workflow.md) end to end:
 
 ## Routing References
 
-- Read [routing.md](references/routing.md) when selecting Impeccable or GSD commands for a concrete step.
-- Read [harnesses.md](references/harnesses.md) before using user-question tools, subagents, browser/live iteration, or fallback text mode.
-- Read [release-gates.md](references/release-gates.md) before PR, merge, tag, release, or author-related work.
+Read these when the corresponding situation arises:
+
+- [workflow.md](references/workflow.md): Full end-to-end delivery process with gate details beyond the 9-step summary above.
+- [routing.md](references/routing.md): Choosing Impeccable vs GSD for a concrete step.
+- [environment.md](references/environment.md): Environment probe fails, dependencies are missing, or runtime detection needs troubleshooting.
+- [harnesses.md](references/harnesses.md): Using subagents, user-question tools, browser/live iteration, or fallback text mode.
+- [artifacts.md](references/artifacts.md): Where Impeccable and GSD store durable artifacts.
+- [release-gates.md](references/release-gates.md): PR, merge, tag, release, author validation, or any remote mutation.
 
 ## Important Constraints
 

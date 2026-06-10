@@ -2,6 +2,14 @@
 
 GoalFlow does not create its own artifact directory. Preserve native Impeccable and GSD locations.
 
+## Skill Artifacts
+
+The `agents/` directory in the GoalFlow skill package contains runtime registration files:
+
+- `agents/openai.yaml`: Codex/OpenAI agent interface definition. This file registers GoalFlow as a Codex skill with display name, short description, default prompt, and implicit invocation policy.
+
+This directory is included in the skill-only release package per [release-gates.md](release-gates.md).
+
 ## Impeccable Artifacts
 
 Use the project's existing Impeccable conventions:

@@ -4,13 +4,15 @@ All notable changes to GoalFlow are documented here.
 
 ## Unreleased
 
+<!-- Target: v0.4.0 -->
+
 ### Changed
 
 - Fixed Codex environment detection so `.agents` is treated as a fully compatible dependency root alongside `.codex`, avoiding false missing-Impeccable/GSD reports.
 - Fixed `--runtime auto` so Codex session signals such as `CODEX_*` prefer `codex` even when GoalFlow itself is installed under `.agents/skills/goalflow`.
 - Tightened probe guidance and docs so Codex no longer suggests copying or syncing dependencies into `.codex` when `.agents` already satisfies the runtime.
 
-## 0.3.0 - 2026-06-09
+## [v0.3.0] - 2026-06-09
 
 ### Added
 
@@ -24,7 +26,7 @@ All notable changes to GoalFlow are documented here.
 - Refreshed English and Chinese README roadmap entries for v0.2.0 and v0.3.0.
 - Added README version-sync requirements to release gates, agent memory, contribution guidance, and the PR template.
 
-## 0.2.0 - 2026-06-09
+## [v0.2.0] - 2026-06-09
 
 ### Added
 
@@ -41,7 +43,7 @@ All notable changes to GoalFlow are documented here.
 - Required bilingual English and Simplified Chinese release notes for future GoalFlow releases.
 - Centralized git/release standing rules and required bilingual English and Simplified Chinese commit messages.
 
-## 0.1.0 - 2026-06-09
+## [v0.1.0] - 2026-06-09
 
 ### Added
 

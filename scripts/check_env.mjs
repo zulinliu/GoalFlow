@@ -5,7 +5,6 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
-  REQUIRED_GSD_SKILLS,
   evaluateRuntimeDependencies,
   VALID_RUNTIME_ARGS,
 } from './check_env_core.mjs';
@@ -52,6 +51,10 @@ function listDirs(dir, prefix) {
 
 const runtimeArg = readOption('runtime') || 'auto';
 const projectArg = readOption('project');
+if (rawArgs.includes('--project') && !projectArg) {
+  console.error('Error: --project requires a directory path argument.');
+  process.exit(2);
+}
 const projectRoot = path.resolve(invocationCwd, projectArg || '.');
 const projectPathOk = isDirectory(projectRoot);
 const projectScopeKnown = Boolean(projectArg) || path.resolve(projectRoot) !== skillRoot;
@@ -204,14 +207,15 @@ const gsdVersionPath = gsdCore ? path.join(gsdCore, 'VERSION') : null;
 const gsdVersion = exists(gsdVersionPath) ? fs.readFileSync(gsdVersionPath, 'utf8').trim() : null;
 const gsdSkillHits = toDisplayHits(runtimeProbe.gsdSkills.compatible.hits);
 const gsdSkillNames = new Set(runtimeProbe.gsdSkills.compatible.uniqueNames);
-const missingRequiredGsdSkills = REQUIRED_GSD_SKILLS.filter((name) => !gsdSkillNames.has(name));
+const missingRequiredGsdSkills = runtimeProbe.gsdSkills.compatible.missingRequired;
 const gsdToolsPath = firstExisting(runtimeProbe.compatibleRoots.map((root) => root.gsdToolsPath));
-let gsdTools = commandVersion('gsd-tools', ['--version']);
-const pathGsdTools = gsdTools;
-gsdTools = null;
+let gsdTools = null;
+const pathGsdTools = commandVersion('gsd-tools', ['--version']);
 if (gsdToolsPath) {
   const localTools = run('node', [gsdToolsPath, '--version']);
   gsdTools = localTools.ok ? localTools.stdout.split(/\r?\n/)[0] : gsdToolsPath;
+} else if (pathGsdTools) {
+  gsdTools = pathGsdTools;
 }
 
 const productPath = firstExisting([

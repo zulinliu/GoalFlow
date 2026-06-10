@@ -167,15 +167,7 @@ git status
 
 Or change directory to the actual project root.
 
-Git author must be a specific person. These are invalid author names for GoalFlow commits:
-
-- Codex
-- Claude
-- Hapi
-- Agent
-- AI Assistant
-- Bot-only identities
-- GitHub Actions, Dependabot, Renovate, and no-reply/service identities
+Git author must be a specific person. For the full list of blocked author identities and the complete gate procedure, see [release-gates.md](release-gates.md#author-gate). In short: author names such as Codex, Claude, Agent, Bot, or any automation/service identity are not accepted.
 
 Fix:
 
